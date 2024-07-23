@@ -4,7 +4,7 @@ import { useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Swipeable } from "react-native-gesture-handler";
 
-import TaskItemRightActions from "./TaskItemRightActions";
+import renderRightAtions from "./renderRightActions";
 import { formatDateBasedOnVal, formatDate } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 
@@ -15,7 +15,7 @@ type TaskItemProps = {
 
 const TaskItem = ({ name, date }: TaskItemProps) => {
   return (
-    <Swipeable renderRightActions={() => <TaskItemRightActions />}>
+    <Swipeable renderRightActions={renderRightAtions}>
       <View style={styles.container}>
         <View style={styles.checkboxContainer}>
           <BouncyCheckbox onPress={(isChecked: boolean) => {}} />
