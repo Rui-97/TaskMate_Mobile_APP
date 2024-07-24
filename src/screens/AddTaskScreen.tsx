@@ -70,6 +70,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     }
     task.id = Math.random().toString();
     addTask(task);
+    console.log(task);
   };
 
   return (
