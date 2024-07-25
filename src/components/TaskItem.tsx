@@ -13,31 +13,64 @@ type TaskItemProps = {
   id: string;
   name: string;
   date: Date | undefined;
+  isCompleted: boolean;
 };
 
-const TaskItem = ({ id, name, date }: TaskItemProps) => {
-  const { moveToCompletedTasks } = useContext(TasksContext);
+const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
+  const { moveToCompletedTasks, moveBackToTasks } = useContext(TasksContext);
 
-  const checkboxSelectHandler = (isChecked: boolean) => {
+  const incompleteTaskCheckboxSelectHandler = (isChecked: boolean) => {
     if (isChecked) {
-      moveToCompletedTasks(id);
+      setTimeout(() => {
+        moveToCompletedTasks(id);
+      }, 300);
+    }
+  };
+  const completedTaskCheckboxSelectHandler = (isChecked: boolean) => {
+    if (!isChecked) {
+      setTimeout(() => {
+        moveBackToTasks(id);
+      }, 300);
     }
   };
   return (
-    <Swipeable renderRightActions={renderRightAtions}>
+    <Swipeable
+      renderRightActions={
+        isCompleted
+          ? () => {
+              return <View></View>;
+            }
+          : renderRightAtions
+      }
+    >
       <View style={styles.container}>
         <View style={styles.checkboxContainer}>
           <BouncyCheckbox
-            onPress={(isChecked: boolean) => {
-              checkboxSelectHandler(isChecked);
-            }}
+            text={name}
+            textStyle={
+              isCompleted
+                ? { color: "#b5b4b4", fontSize: 15 }
+                : { color: "#000000", fontSize: 15 }
+            }
+            onPress={
+              isCompleted
+                ? (isChecked: boolean) => {
+                    completedTaskCheckboxSelectHandler(isChecked);
+                  }
+                : (isChecked: boolean) => {
+                    incompleteTaskCheckboxSelectHandler(isChecked);
+                  }
+            }
+            isChecked={isCompleted ? true : false}
+            bounceEffectIn={0.9}
           />
         </View>
-        <View style={styles.taskContainer}>
-          <Text>{name}</Text>
-        </View>
         <View style={styles.timeContainer}>
-          <Text>{date && formatDate(date)}</Text>
+          <Text
+            style={isCompleted ? { color: "#b5b4b4" } : { color: "#000000" }}
+          >
+            {date && formatDate(date)}
+          </Text>
           {/* <Text>date{date.toDateString()}</Text>
           <Text>{date && formatDateBasedOnVal(date)}</Text> */}
         </View>
@@ -62,11 +95,9 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: { flex: 1 },
   taskContainer: {
-    flex: 6,
     alignItems: "flex-start",
   },
   timeContainer: {
-    flex: 2,
     alignItems: "flex-end",
   },
 });

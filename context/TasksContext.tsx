@@ -9,6 +9,7 @@ type TasksContextType = {
   addTask: (newTask: Task) => void;
   deleteTask: (taskToBeDeletedId: string) => void;
   moveToCompletedTasks: (taskId: string) => void;
+  moveBackToTasks: (taskId: string) => void;
 };
 
 export const TasksContext = createContext<TasksContextType>({
@@ -17,12 +18,18 @@ export const TasksContext = createContext<TasksContextType>({
   addTask: () => {},
   deleteTask: () => {},
   moveToCompletedTasks: () => {},
+  moveBackToTasks: () => {},
 });
 
 const DUMMY_TASKS: Task[] = [
   { id: "1", name: "tasks1", list: "inbox", date: new Date() },
   { id: "2", name: "tasks2", list: "inbox", date: new Date() },
   { id: "3", name: "tasks3", list: "inbox", date: new Date() },
+];
+const DUMMY_COMPLETED_TASKS: Task[] = [
+  { id: "4", name: "tasks4", list: "inbox", date: new Date() },
+  { id: "5", name: "tasks5", list: "inbox", date: new Date() },
+  { id: "6", name: "tasks6", list: "inbox", date: new Date() },
 ];
 // const DUMMY_TASKS: Task[] = [];
 type TasksContextProviderProps = {
@@ -31,7 +38,9 @@ type TasksContextProviderProps = {
 
 const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
   const [tasks, setTasks] = useState<Task[]>(DUMMY_TASKS);
-  const [completedTasks, setCompletedTasks] = useState<Task[]>(DUMMY_TASKS);
+  const [completedTasks, setCompletedTasks] = useState<Task[]>(
+    DUMMY_COMPLETED_TASKS
+  );
 
   //Tasks
   const addTask = (newTask: Task) => {
@@ -55,6 +64,21 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     setCompletedTasks((prev) => [task, ...prev]);
   };
 
+  //Move completed task back to the task
+  const moveBackToTasks = (taskId: string) => {
+    const task = completedTasks.find((task) => task.id === taskId);
+    if (!task) {
+      console.warn(`Task with id ${taskId} not found.`);
+      return;
+    }
+
+    // delete the task from completed tasks
+    setCompletedTasks((prevTasks) =>
+      prevTasks.filter((task) => task.id !== taskId)
+    );
+    setTasks((prev) => [task, ...prev]);
+  };
+
   return (
     <TasksContext.Provider
       value={{
@@ -63,6 +87,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         addTask,
         deleteTask,
         moveToCompletedTasks,
+        moveBackToTasks,
       }}
     >
       {children}

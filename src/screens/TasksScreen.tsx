@@ -1,8 +1,6 @@
 import { View, SafeAreaView, Text, StyleSheet } from "react-native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/Feather";
 
-import type { TaskStackParamList } from "../types";
 import PressableListTitle from "../components/PressableListTitle";
 import AddTaskBtn from "../components/AddTaskBtn";
 import Tasks from "../components/Tasks";
@@ -20,7 +18,6 @@ const TasksScreen = () => {
           <Icon name="more-horizontal" size={25} />
         </View>
         <Tasks />
-        <Text>complete</Text>
         <CompletedTasks />
         <AddTaskBtn />
       </View>
