@@ -47,17 +47,17 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     description: "",
     list: "",
     priority: "",
-    date: undefined,
+    date: "",
   });
   useEffect(() => {
     if (route.params?.date) {
-      inputChangeHandler("date", new Date(route.params.date));
+      inputChangeHandler("date", route.params.date);
     }
   }, [route.params?.date]);
 
   const inputChangeHandler = (
     valueIdentifer: TaskValueIdentifer,
-    enteredValue: string | Date
+    enteredValue: string
   ): void => {
     setTask((prevTask) => ({ ...prevTask, [valueIdentifer]: enteredValue }));
   };
@@ -70,7 +70,6 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     }
     task.id = Math.random().toString();
     addTask(task);
-    console.log(task);
   };
 
   return (

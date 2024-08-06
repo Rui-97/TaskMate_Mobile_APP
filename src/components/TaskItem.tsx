@@ -12,7 +12,7 @@ import { paddingNmargin } from "../../constants/styles";
 type TaskItemProps = {
   id: string;
   name: string;
-  date: Date | undefined;
+  date: string;
   isCompleted: boolean;
 };
 
@@ -44,14 +44,14 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
       }
     >
       <View style={styles.container}>
-        <View style={styles.checkboxContainer}>
+        <View>
           <BouncyCheckbox
-            text={name}
-            textStyle={
-              isCompleted
-                ? { color: "#b5b4b4", fontSize: 15 }
-                : { color: "#000000", fontSize: 15 }
-            }
+            // text={name}
+            // textStyle={
+            //   isCompleted
+            //     ? { color: "#b5b4b4", fontSize: 15 }
+            //     : { color: "#000000", fontSize: 15 }
+            // }
             onPress={
               isCompleted
                 ? (isChecked: boolean) => {
@@ -62,17 +62,28 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
                   }
             }
             isChecked={isCompleted ? true : false}
-            bounceEffectIn={0.9}
+            bounceEffectIn={1.1}
           />
+        </View>
+        <View>
+          <Text
+            style={[
+              styles.taskContainer,
+              isCompleted
+                ? { color: "#b5b4b4", fontSize: 15 }
+                : { color: "#000000", fontSize: 15 },
+            ]}
+          >
+            {name}
+          </Text>
         </View>
         <View style={styles.timeContainer}>
           <Text
             style={isCompleted ? { color: "#b5b4b4" } : { color: "#000000" }}
           >
-            {date && formatDate(date)}
+            {/* {date && formatDate(date)} */}
+            {date && formatDateBasedOnVal(date)}
           </Text>
-          {/* <Text>date{date.toDateString()}</Text>
-          <Text>{date && formatDateBasedOnVal(date)}</Text> */}
         </View>
       </View>
     </Swipeable>
@@ -93,11 +104,11 @@ const styles = StyleSheet.create({
     marginBottom: paddingNmargin.small,
     backgroundColor: "#ffffff",
   },
-  checkboxContainer: { flex: 1 },
   taskContainer: {
     alignItems: "flex-start",
   },
   timeContainer: {
+    flex: 1,
     alignItems: "flex-end",
   },
 });

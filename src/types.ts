@@ -35,7 +35,7 @@ export type Task = {
   id: string;
   name: string;
   list: string;
-  date?: Date;
+  date?: string;
   description?: string;
   priority?: string;
 };

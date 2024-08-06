@@ -22,16 +22,16 @@ export const TasksContext = createContext<TasksContextType>({
 });
 
 const DUMMY_TASKS: Task[] = [
-  { id: "1", name: "tasks1", list: "inbox", date: new Date() },
-  { id: "2", name: "tasks2", list: "inbox", date: new Date() },
-  { id: "3", name: "tasks3", list: "inbox", date: new Date() },
+  { id: "1", name: "tasks1", list: "inbox", date: "2024-07-06" },
+  { id: "2", name: "tasks2", list: "inbox", date: "2024-07-06" },
+  { id: "3", name: "tasks3", list: "inbox", date: "2024-07-06" },
 ];
 const DUMMY_COMPLETED_TASKS: Task[] = [
-  { id: "4", name: "tasks4", list: "inbox", date: new Date() },
-  { id: "5", name: "tasks5", list: "inbox", date: new Date() },
-  { id: "6", name: "tasks6", list: "inbox", date: new Date() },
+  { id: "4", name: "tasks4", list: "inbox", date: "2024-07-06" },
+  { id: "5", name: "tasks5", list: "inbox", date: "2024-07-06" },
+  { id: "6", name: "tasks6", list: "inbox", date: "2024-07-06" },
 ];
-// const DUMMY_TASKS: Task[] = [];
+
 type TasksContextProviderProps = {
   children: React.ReactNode;
 };

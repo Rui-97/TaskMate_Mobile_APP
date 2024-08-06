@@ -1,5 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { Calendar } from "react-native-calendars";
+import { Calendar, DateData } from "react-native-calendars";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -16,9 +16,9 @@ type TaskCalendarScreenProps = {
   navigation: TaskCalendarScreenNavigationProp;
 };
 const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
-  const [selectedDayString, setSelectedDayString] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const markedDate = {
-    [selectedDayString]: {
+    [selectedDate]: {
       selected: true,
       marked: true,
       selectedColor: "#687dcc",
@@ -42,7 +42,7 @@ const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
             onPress={() =>
               navigation.navigate({
                 name: "AddTaskScreen",
-                params: { date: selectedDayString },
+                params: { date: selectedDate },
                 merge: true,
               })
             }
@@ -51,8 +51,8 @@ const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
       </View>
 
       <Calendar
-        onDayPress={(day: { dateString: string }) => {
-          setSelectedDayString(day.dateString);
+        onDayPress={(dateData: DateData) => {
+          setSelectedDate(dateData.dateString);
         }}
         markedDates={markedDate}
         theme={{

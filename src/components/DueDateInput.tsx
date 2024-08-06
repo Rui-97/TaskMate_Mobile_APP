@@ -13,7 +13,7 @@ type DueDateInputNavigationProp = NativeStackNavigationProp<
   "AddTaskScreen"
 >;
 type DueDateInputProps = {
-  selectedDate: Date | undefined;
+  selectedDate?: string;
 };
 
 const DueDateInput = ({ selectedDate }: DueDateInputProps) => {
@@ -39,7 +39,7 @@ const DueDateInput = ({ selectedDate }: DueDateInputProps) => {
       <Text
         style={[styles.text, { color: selectedDate ? "#687dcc" : "#636363" }]}
       >
-        {selectedDate ? formatDate(selectedDate) : "Due Date"}
+        {selectedDate ? selectedDate : "Due Date"}
       </Text>
     </Pressable>
   );
