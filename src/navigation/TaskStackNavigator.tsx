@@ -20,17 +20,25 @@ const TaskStackNavigator = () => {
       <TaskStack.Screen
         name="AddTaskScreen"
         component={AddTaskScreen}
-        options={{ presentation: "modal", headerTitle: "Add Task" }}
+        options={{
+          presentation: "modal",
+          headerShown: false,
+          contentStyle: { top: "35%", borderRadius: 5 },
+        }}
+      />
+      <TaskStack.Screen
+        name="TaskCalendarScreen"
+        component={TaskCalendarScreen}
+        options={{
+          presentation: "modal",
+          headerShown: false,
+          contentStyle: { top: "30%", borderRadius: 5 },
+        }}
       />
       <TaskStack.Screen
         name="ListsScreen"
         component={ListsScreen}
         options={{ presentation: "modal", headerTitle: "Lists" }}
-      />
-      <TaskStack.Screen
-        name="TaskCalendarScreen"
-        component={TaskCalendarScreen}
-        options={{ presentation: "modal", headerShown: false }}
       />
     </TaskStack.Navigator>
   );

@@ -126,9 +126,6 @@ export default AddTaskScreen;
 const styles = StyleSheet.create({
   screenContainer: {
     paddingHorizontal: paddingNmargin.standard,
-    // height: "50%",
-    // borderColor: "red",
-    // borderWidth: 5,
   },
   taskNameInput: {
     marginVertical: paddingNmargin.standard,
