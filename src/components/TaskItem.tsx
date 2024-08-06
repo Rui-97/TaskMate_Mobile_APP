@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Swipeable } from "react-native-gesture-handler";
 
-import renderRightAtions from "./renderRightActions";
+import RightActions from "./RightActions";
 import { TasksContext } from "../../context/TasksContext";
 import { formatDateBasedOnVal, formatDate } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
@@ -40,7 +40,7 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
           ? () => {
               return <View></View>;
             }
-          : renderRightAtions
+          : (progress) => <RightActions progress={progress} taskID={id} />
       }
     >
       <View style={styles.container}>

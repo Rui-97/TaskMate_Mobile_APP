@@ -42,7 +42,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     DUMMY_COMPLETED_TASKS
   );
 
-  //Tasks
+  //Tasks related methods ====================================
   const addTask = (newTask: Task) => {
     setTasks((prevTasks) => [newTask, ...prevTasks]);
   };
@@ -52,6 +52,8 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
       prevTasks.filter((task) => task.id !== taskToBeDeletedId)
     );
   };
+
+  //CompltedTasks related methods============================
 
   //Move the task to the completed Task
   const moveToCompletedTasks = (taskId: string) => {
