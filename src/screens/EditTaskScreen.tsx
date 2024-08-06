@@ -38,7 +38,7 @@ type AddTaskScreenProps = {
   route: AddTaskScreenRouteProp;
 };
 
-const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
+const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
   const { addTask } = useContext(TasksContext);
   const [task, setTask] = useState<Task>({
     id: "",
@@ -120,7 +120,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
   );
 };
 
-export default AddTaskScreen;
+export default EditTaskScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {

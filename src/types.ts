@@ -3,6 +3,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 export type TaskStackParamList = {
   TasksScreen: undefined;
   AddTaskScreen: { date?: string };
+  EditTaskScreen: { date?: string };
   ListsScreen: undefined;
   TaskCalendarScreen: undefined;
 };

@@ -2,12 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import TasksScreen from "../screens/TasksScreen";
 import AddTaskScreen from "../screens/AddTaskScreen";
+import EditTaskScreen from "../screens/EditTaskScreen";
 import ListsScreen from "../screens/ListsScreen";
 import TaskCalendarScreen from "../screens/TaskCalendarScreen";
 import { TaskStackParamList } from "../types";
 
 const TaskStack = createNativeStackNavigator<TaskStackParamList>();
-// const TaskStack = createNativeStackNavigator();
 
 const TaskStackNavigator = () => {
   return (
@@ -20,6 +20,15 @@ const TaskStackNavigator = () => {
       <TaskStack.Screen
         name="AddTaskScreen"
         component={AddTaskScreen}
+        options={{
+          presentation: "modal",
+          headerShown: false,
+          contentStyle: { top: "35%", borderRadius: 5 },
+        }}
+      />
+      <TaskStack.Screen
+        name="EditTaskScreen"
+        component={EditTaskScreen}
         options={{
           presentation: "modal",
           headerShown: false,
