@@ -1,12 +1,10 @@
 import { Pressable, Text, StyleSheet } from "react-native";
-import { useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import type { TaskStackParamList } from "../types";
-import { formatDate } from "../utils/utils";
-import { paddingNmargin } from "../../constants/styles";
+import type { TaskStackParamList } from "../../types";
+import { paddingNmargin } from "../../../constants/styles";
 
 type DueDateInputNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,

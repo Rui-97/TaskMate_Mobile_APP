@@ -1,10 +1,10 @@
 import { View, SafeAreaView, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
-import PressableListTitle from "../components/PressableListTitle";
-import AddTaskBtn from "../components/AddTaskBtn";
-import Tasks from "../components/Tasks";
-import CompletedTasks from "../components/CompletedTasks";
+import PressableListTitle from "../components/List/PressableListTitle";
+import AddTaskBtn from "../components/Task/AddTaskBtn";
+import Tasks from "../components/Task/Tasks";
+import CompletedTasks from "../components/Task/CompletedTasks";
 import { fontSize, paddingNmargin } from "../../constants/styles";
 
 const TasksScreen = () => {

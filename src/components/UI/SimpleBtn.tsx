@@ -1,6 +1,6 @@
 import { Pressable, Text, StyleSheet } from "react-native";
 
-import { paddingNmargin } from "../../constants/styles";
+import { paddingNmargin } from "../../../constants/styles";
 
 type SimpleBtnProps = {
   buttonName: string;

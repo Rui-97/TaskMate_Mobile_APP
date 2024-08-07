@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { MiniDropdownOption, TaskValueIdentifer } from "../types";
-import { paddingNmargin } from "../../constants/styles";
+import { MiniDropdownOption, TaskValueIdentifer } from "../../types";
+import { paddingNmargin } from "../../../constants/styles";
 
 type MiniDropdownProps = {
   placeholder: string;

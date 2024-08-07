@@ -8,9 +8,9 @@ import {
 import { useState, useEffect, useContext } from "react";
 import { RouteProp } from "@react-navigation/native";
 
-import DueDateInput from "../components/DueDateInput";
-import MiniDropdown from "../components/MiniDropdown";
-import SubmitTaskBtn from "../components/SubmitTaskBtn";
+import DueDateInput from "../components/Task/DueDateInput";
+import MiniDropdown from "../components/Task/MiniDropdown";
+import SubmitTaskBtn from "../components/Task/SubmitTaskBtn";
 import type {
   TaskValueIdentifer,
   MiniDropdownOption,

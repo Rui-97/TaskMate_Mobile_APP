@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet } from "react-native";
 import { useContext } from "react";
 
-import { TasksContext } from "../../context/TasksContext";
+import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
-import { paddingNmargin } from "../../constants/styles";
+import { paddingNmargin } from "../../../constants/styles";
 
 const Tasks = () => {
   const { tasks } = useContext(TasksContext);
@@ -12,7 +12,12 @@ const Tasks = () => {
       style={styles.container}
       data={tasks}
       renderItem={({ item }) => (
-        <TaskItem name={item.name} date={item.date} id={item.id} />
+        <TaskItem
+          name={item.name}
+          date={item.date}
+          id={item.id}
+          isCompleted={false}
+        />
       )}
       keyExtractor={(item) => item.id}
     />

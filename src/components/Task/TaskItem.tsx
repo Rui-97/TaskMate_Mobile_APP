@@ -7,15 +7,15 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Swipeable } from "react-native-gesture-handler";
 
 import RightActions from "./RightActions";
-import { TasksContext } from "../../context/TasksContext";
-import { formatDateBasedOnVal } from "../utils/utils";
-import { paddingNmargin } from "../../constants/styles";
-import type { TaskStackParamList } from "../types";
+import { TasksContext } from "../../../context/TasksContext";
+import { formatDateBasedOnVal } from "../../utils/utils";
+import { paddingNmargin } from "../../../constants/styles";
+import type { TaskStackParamList } from "../../types";
 
 type TaskItemProps = {
   id: string;
   name: string;
-  date: string;
+  date?: string;
   isCompleted: boolean;
 };
 

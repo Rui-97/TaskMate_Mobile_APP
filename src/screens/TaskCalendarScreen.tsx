@@ -3,7 +3,7 @@ import { Calendar, DateData } from "react-native-calendars";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import SimpleBtn from "../components/SimpleBtn";
+import SimpleBtn from "../components/UI/SimpleBtn";
 import type { TaskStackParamList } from "../types";
 import { paddingNmargin } from "../../constants/styles";
 

@@ -3,7 +3,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
-import type { TaskStackParamList } from "../types";
+import type { TaskStackParamList } from "../../types";
 
 type AddTaskBtnNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,
@@ -15,7 +15,12 @@ const AddTaskBtn = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate("AddTaskScreen")}
+      onPress={() =>
+        navigation.navigate({
+          name: "AddTaskScreen",
+          params: { date: undefined },
+        })
+      }
       style={styles.btn}
     >
       <Icon name="pluscircle" size={60} color="#687dcc" />

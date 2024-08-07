@@ -3,8 +3,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
-import type { TaskStackParamList } from "../types";
-import { paddingNmargin } from "../../constants/styles";
+import type { TaskStackParamList } from "../../types";
+import { paddingNmargin } from "../../../constants/styles";
 
 type SubmitTaskBtnNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,

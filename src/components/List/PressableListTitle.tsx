@@ -2,8 +2,8 @@ import { Pressable, Text, StyleSheet } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
-import { TaskStackParamList } from "../types";
-import { fontSize } from "../../constants/styles";
+import { TaskStackParamList } from "../../types";
+import { fontSize } from "../../../constants/styles";
 
 type PressableListTitleProps = {
   title: string;

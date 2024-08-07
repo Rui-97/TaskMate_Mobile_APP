@@ -3,8 +3,8 @@ import { Animated, Pressable, View, StyleSheet } from "react-native";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { paddingNmargin } from "../../constants/styles";
-import { TasksContext } from "../../context/TasksContext";
+import { paddingNmargin } from "../../../constants/styles";
+import { TasksContext } from "../../../context/TasksContext";
 
 type RightActionsProps = {
   progress: Animated.AnimatedInterpolation<number>;

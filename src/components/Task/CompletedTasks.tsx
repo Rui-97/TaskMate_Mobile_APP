@@ -1,10 +1,10 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext, useState } from "react";
 import { ListItem } from "@rneui/themed";
 
-import { TasksContext } from "../../context/TasksContext";
+import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
-import { paddingNmargin } from "../../constants/styles";
+import { paddingNmargin } from "../../../constants/styles";
 
 const CompletedTasks = () => {
   const [isExpanded, setIsExpanded] = useState(false);
