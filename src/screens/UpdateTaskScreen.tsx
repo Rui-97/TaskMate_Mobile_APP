@@ -22,37 +22,30 @@ import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 
 const listOptions: MiniDropdownOption[] = [
-  { label: "Today", value: "Today" },
-  { label: "Inbox", value: "Inbox" },
-  { label: "Poject1", value: "Poject1" },
+  { label: "Today", value: "today" },
+  { label: "Inbox", value: "inbox" },
+  { label: "Poject1", value: "poject1" },
 ];
 const priorityOptions: MiniDropdownOption[] = [
-  { label: "High Priority", value: "High" },
-  { label: "Medium Priority", value: "Medium" },
-  { label: "Low Priority", value: "Low" },
-  { label: "No Priority", value: "No" },
+  { label: "High Priority", value: "high" },
+  { label: "Medium Priority", value: "medium" },
+  { label: "Low Priority", value: "low" },
+  { label: "No Priority", value: "no" },
 ];
 
-type AddTaskScreenRouteProp = RouteProp<TaskStackParamList, "AddTaskScreen">;
-type AddTaskScreenProps = {
-  route: AddTaskScreenRouteProp;
+type UpdateTaskScreenRouteProp = RouteProp<
+  TaskStackParamList,
+  "UpdateTaskScreen"
+>;
+type UpdateTaskScreenProps = {
+  route: UpdateTaskScreenRouteProp;
 };
 
-const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
-  const { addTask } = useContext(TasksContext);
-  const [task, setTask] = useState<Task>({
-    id: "",
-    name: "",
-    description: "",
-    list: "",
-    priority: "",
-    date: "",
-  });
-  useEffect(() => {
-    if (route.params?.date) {
-      inputChangeHandler("date", route.params.date);
-    }
-  }, [route.params?.date]);
+const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
+  const { tasks, updateTask } = useContext(TasksContext);
+  const taskId = route.params.taskId;
+  const initalTask: Task = tasks.find((task) => task.id === taskId) as Task;
+  const [task, setTask] = useState<Task>(initalTask);
 
   const inputChangeHandler = (
     valueIdentifer: TaskValueIdentifer,
@@ -67,8 +60,7 @@ const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
     if (parsedDate) {
       task.date = parsedDate;
     }
-    task.id = Math.random().toString();
-    addTask(task);
+    updateTask(taskId, task);
   };
 
   return (
@@ -78,7 +70,6 @@ const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
           placeholder="Task Name"
           placeholderTextColor="#8c8c8c"
           style={styles.taskNameInput}
-          autoFocus={true}
           onChangeText={(value) => inputChangeHandler("name", value)}
           value={task.name}
         />
@@ -94,6 +85,7 @@ const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
           <DueDateInput selectedDate={task.date} />
           <MiniDropdown
             options={priorityOptions}
+            val={task.priority}
             placeholder="Priority"
             iconName="flag-outline"
             onValueChange={inputChangeHandler}
@@ -101,6 +93,7 @@ const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
           />
           <MiniDropdown
             options={listOptions}
+            val={task.list}
             placeholder="List"
             iconName="file-tray-outline"
             onValueChange={inputChangeHandler}
@@ -120,7 +113,7 @@ const EditTaskScreen = ({ route }: AddTaskScreenProps) => {
   );
 };
 
-export default EditTaskScreen;
+export default UpdateTaskScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {

@@ -8,6 +8,7 @@ import { paddingNmargin } from "../../constants/styles";
 
 type MiniDropdownProps = {
   placeholder: string;
+  val?: string;
   iconName: string;
   options: MiniDropdownOption[];
   onValueChange: (valueIdentifer: TaskValueIdentifer, value: string) => void;
@@ -16,12 +17,13 @@ type MiniDropdownProps = {
 
 const MiniDropdown = ({
   placeholder,
+  val = "",
   iconName,
   options,
   onValueChange,
   taskValueIdentifier,
 }: MiniDropdownProps) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(val);
   const [isFocus, setIsFocus] = useState(false);
 
   const valueChangeHandler = (value: string) => {
@@ -33,7 +35,7 @@ const MiniDropdown = ({
       <Dropdown
         style={[
           styles.dropdown,
-          (isFocus || value) && { borderColor: "#687dcc" },
+          isFocus || value ? { borderColor: "#687dcc" } : null,
         ]}
         iconStyle={styles.iconStyle}
         placeholderStyle={styles.placeholder}

@@ -28,6 +28,17 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
   const { moveToCompletedTasks, moveBackToTasks } = useContext(TasksContext);
   const navigation = useNavigation<TaskItemNavigationProp>();
 
+  const pressHandler = () => {
+    if (!isCompleted) {
+      navigation.navigate("UpdateTaskScreen", { taskId: id });
+    }
+  };
+
+  const renderRightActionsHandler = (progress) => {
+    if (!isCompleted) {
+      return <RightActions progress={progress} taskID={id} />;
+    }
+  };
   const incompleteTaskCheckboxSelectHandler = (isChecked: boolean) => {
     if (isChecked) {
       setTimeout(() => {
@@ -42,16 +53,11 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
       }, 300);
     }
   };
+
   return (
-    <Pressable onPress={() => navigation.navigate("EditTaskScreen")}>
+    <Pressable onPress={pressHandler}>
       <Swipeable
-        renderRightActions={
-          isCompleted
-            ? () => {
-                return <View></View>;
-              }
-            : (progress) => <RightActions progress={progress} taskID={id} />
-        }
+        renderRightActions={(progress) => renderRightActionsHandler(progress)}
       >
         <View style={styles.container}>
           <View>
@@ -91,7 +97,6 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
             <Text
               style={isCompleted ? { color: "#b5b4b4" } : { color: "#000000" }}
             >
-              {/* {date && formatDate(date)} */}
               {date && formatDateBasedOnVal(date)}
             </Text>
           </View>

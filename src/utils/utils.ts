@@ -4,7 +4,7 @@ import nlpDates from "compromise-dates";
 nlp.extend(nlpDates);
 
 type ParsedTask = {
-  date?: Date;
+  date?: string;
 };
 export const parseTask = (input: string): ParsedTask => {
   let doc = nlp(input);

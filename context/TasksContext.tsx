@@ -7,7 +7,8 @@ type TasksContextType = {
   tasks: Task[];
   completedTasks: Task[];
   addTask: (newTask: Task) => void;
-  deleteTask: (taskToBeDeletedId: string) => void;
+  deleteTask: (id: string) => void;
+  updateTask: (id: string, updatedTask: Task) => void;
   moveToCompletedTasks: (taskId: string) => void;
   moveBackToTasks: (taskId: string) => void;
 };
@@ -17,6 +18,7 @@ export const TasksContext = createContext<TasksContextType>({
   completedTasks: [],
   addTask: () => {},
   deleteTask: () => {},
+  updateTask: () => {},
   moveToCompletedTasks: () => {},
   moveBackToTasks: () => {},
 });
@@ -47,10 +49,19 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     setTasks((prevTasks) => [newTask, ...prevTasks]);
   };
 
-  const deleteTask = (taskToBeDeletedId: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.filter((task) => task.id !== taskToBeDeletedId)
-    );
+  const deleteTask = (id: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+  const updateTask = (id: string, updatedTask: Task) => {
+    setTasks((prevTasks) => {
+      // Find the index of the task that is about to be updated in the tasks.
+      const taskTOBeUpdatedIndex = prevTasks.findIndex(
+        (task) => task.id === id
+      );
+      const updatedTasks = [...prevTasks];
+      updatedTasks[taskTOBeUpdatedIndex] = updatedTask;
+      return updatedTasks;
+    });
   };
 
   //CompltedTasks related methods============================
@@ -88,6 +99,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         completedTasks,
         addTask,
         deleteTask,
+        updateTask,
         moveToCompletedTasks,
         moveBackToTasks,
       }}
