@@ -12,13 +12,14 @@ type DueDateInputNavigationProp = NativeStackNavigationProp<
 >;
 type DueDateInputProps = {
   selectedDate?: string;
+  from: "AddTaskScreen" | "UpdateTaskScreen";
 };
 
-const DueDateInput = ({ selectedDate }: DueDateInputProps) => {
+const DueDateInput = ({ selectedDate, from }: DueDateInputProps) => {
   const navigation = useNavigation<DueDateInputNavigationProp>();
 
   const pressHandler = () => {
-    navigation.navigate("TaskCalendarScreen");
+    navigation.navigate("TaskCalendarScreen", { prevScreen: from });
   };
   return (
     <Pressable

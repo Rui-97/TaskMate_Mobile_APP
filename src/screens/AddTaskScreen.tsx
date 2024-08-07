@@ -91,7 +91,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
         />
 
         <ScrollView horizontal>
-          <DueDateInput selectedDate={task.date} />
+          <DueDateInput selectedDate={task.date} from="AddTaskScreen" />
           <MiniDropdown
             options={priorityOptions}
             placeholder="Priority"

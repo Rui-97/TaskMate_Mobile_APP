@@ -47,6 +47,12 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
   const initalTask: Task = tasks.find((task) => task.id === taskId) as Task;
   const [task, setTask] = useState<Task>(initalTask);
 
+  useEffect(() => {
+    if (route.params?.date) {
+      inputChangeHandler("date", route.params.date);
+    }
+  }, [route.params?.date]);
+
   const inputChangeHandler = (
     valueIdentifer: TaskValueIdentifer,
     enteredValue: string
@@ -60,7 +66,7 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
     if (parsedDate) {
       task.date = parsedDate;
     }
-    updateTask(taskId, task);
+    updateTask(taskId!, task);
   };
 
   return (
@@ -82,7 +88,7 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
         />
 
         <ScrollView horizontal>
-          <DueDateInput selectedDate={task.date} />
+          <DueDateInput selectedDate={task.date} from="UpdateTaskScreen" />
           <MiniDropdown
             options={priorityOptions}
             val={task.priority}

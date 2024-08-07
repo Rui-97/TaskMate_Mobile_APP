@@ -1,21 +1,24 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Calendar, DateData } from "react-native-calendars";
 import { useState } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+// import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import SimpleBtn from "../components/UI/SimpleBtn";
 import type { TaskStackParamList } from "../types";
 import { paddingNmargin } from "../../constants/styles";
 
-type TaskCalendarScreenNavigationProp = NativeStackNavigationProp<
-  TaskStackParamList,
-  "TaskCalendarScreen"
->;
+// type TaskCalendarScreenNavigationProp = NativeStackNavigationProp<
+//   TaskStackParamList,
+//   "TaskCalendarScreen"
+// >;
+type Props = NativeStackScreenProps<TaskStackParamList, "TaskCalendarScreen">;
 
-type TaskCalendarScreenProps = {
-  navigation: TaskCalendarScreenNavigationProp;
-};
-const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
+// type TaskCalendarScreenProps = {
+//   navigation: TaskCalendarScreenNavigationProp;
+// };
+const TaskCalendarScreen = ({ navigation, route }: Props) => {
+  const prevScreen = route.params.prevScreen;
   const [selectedDate, setSelectedDate] = useState("");
   const markedDate = {
     [selectedDate]: {
@@ -24,7 +27,21 @@ const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
       selectedColor: "#687dcc",
     },
   };
-
+  const doneHandler = () => {
+    if (prevScreen === "AddTaskScreen") {
+      navigation.navigate({
+        name: "AddTaskScreen",
+        params: { date: selectedDate },
+        merge: true,
+      });
+    } else if (prevScreen === "UpdateTaskScreen") {
+      navigation.navigate({
+        name: "UpdateTaskScreen",
+        params: { date: selectedDate },
+        merge: true,
+      });
+    }
+  };
   return (
     <View>
       <View style={styles.headerRow}>
@@ -36,17 +53,7 @@ const TaskCalendarScreen = ({ navigation }: TaskCalendarScreenProps) => {
           />
         </View>
         <View style={styles.doneBtnContainer}>
-          <SimpleBtn
-            buttonName="Done"
-            border={false}
-            onPress={() =>
-              navigation.navigate({
-                name: "AddTaskScreen",
-                params: { date: selectedDate },
-                merge: true,
-              })
-            }
-          />
+          <SimpleBtn buttonName="Done" border={false} onPress={doneHandler} />
         </View>
       </View>
 
