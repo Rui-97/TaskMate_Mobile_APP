@@ -1,5 +1,5 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -27,9 +27,10 @@ type TaskItemNavigationProp = NativeStackNavigationProp<
 const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
   const { moveToCompletedTasks, moveBackToTasks } = useContext(TasksContext);
   const navigation = useNavigation<TaskItemNavigationProp>();
+  const isSwiping = useRef(false);
 
   const pressHandler = () => {
-    if (!isCompleted) {
+    if (!isCompleted && !isSwiping.current) {
       navigation.navigate("UpdateTaskScreen", { taskId: id });
     }
   };
@@ -58,16 +59,12 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
     <Pressable onPress={pressHandler}>
       <Swipeable
         renderRightActions={(progress) => renderRightActionsHandler(progress)}
+        onSwipeableWillOpen={() => (isSwiping.current = true)}
+        onSwipeableClose={() => (isSwiping.current = false)}
       >
         <View style={styles.container}>
           <View>
             <BouncyCheckbox
-              // text={name}
-              // textStyle={
-              //   isCompleted
-              //     ? { color: "#b5b4b4", fontSize: 15 }
-              //     : { color: "#000000", fontSize: 15 }
-              // }
               onPress={
                 isCompleted
                   ? (isChecked: boolean) => {
