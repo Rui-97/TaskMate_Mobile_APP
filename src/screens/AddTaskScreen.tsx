@@ -22,20 +22,19 @@ import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 
 const listOptions: MiniDropdownOption[] = [
-  { label: "Today", value: "Today" },
-  { label: "Inbox", value: "Inbox" },
-  { label: "Poject1", value: "Poject1" },
+  { label: "Today", value: "today" },
+  { label: "Inbox", value: "inbox" },
+  { label: "Poject1", value: "poject1" },
 ];
 const priorityOptions: MiniDropdownOption[] = [
-  { label: "High Priority", value: "High" },
-  { label: "Medium Priority", value: "Medium" },
-  { label: "Low Priority", value: "Low" },
-  { label: "No Priority", value: "No" },
+  { label: "High Priority", value: "high" },
+  { label: "Medium Priority", value: "medium" },
+  { label: "Low Priority", value: "low" },
+  { label: "No Priority", value: "no" },
 ];
 
-type AddTaskScreenRouteProp = RouteProp<TaskStackParamList, "AddTaskScreen">;
 type AddTaskScreenProps = {
-  route: AddTaskScreenRouteProp;
+  route: RouteProp<TaskStackParamList, "AddTaskScreen">;
 };
 
 const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
@@ -47,6 +46,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     list: "",
     priority: "",
     date: "",
+    isCompleted: false,
   });
   useEffect(() => {
     if (route.params?.date) {

@@ -6,19 +6,16 @@ import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
 import { paddingNmargin } from "../../../constants/styles";
 
-const CompletedTasks = () => {
+type CompletedTasksProps = {
+  list?: string;
+};
+
+const CompletedTasks = ({ list = "inbox" }: CompletedTasksProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { completedTasks } = useContext(TasksContext);
-  // return (
-  //   <FlatList
-  //     style={styles.container}
-  //     data={completedTasks}
-  //     renderItem={({ item }) => (
-  //       <TaskItem id={item.id} name={item.name} date={item.date} isCompleted />
-  //     )}
-  //     keyExtractor={(item) => item.id}
-  //   />
-  // );
+  const { getTasksByListAndCompletion } = useContext(TasksContext);
+  //Get completed tasks in the give list
+  const tasksToBeDisplayed = getTasksByListAndCompletion(list, true);
+
   return (
     <View style={styles.container}>
       <ListItem.Accordion
@@ -26,7 +23,7 @@ const CompletedTasks = () => {
           <>
             <ListItem.Content>
               <ListItem.Title style={{ fontSize: 15 }}>
-                Completed ({completedTasks.length})
+                Completed ({tasksToBeDisplayed.length})
               </ListItem.Title>
             </ListItem.Content>
           </>
@@ -35,7 +32,7 @@ const CompletedTasks = () => {
         onPress={() => setIsExpanded(!isExpanded)}
         containerStyle={styles.accordionHeader}
       >
-        {completedTasks.map((task, i) => (
+        {tasksToBeDisplayed.map((task, i) => (
           <TaskItem
             key={task.id}
             id={task.id}

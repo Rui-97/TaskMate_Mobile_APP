@@ -4,23 +4,24 @@ import { useNavigation } from "@react-navigation/native";
 
 import { TaskStackParamList } from "../../types";
 import { fontSize } from "../../../constants/styles";
+import { capitalizeWord } from "../../utils/utils";
 
 type PressableListTitleProps = {
-  title: string;
+  list?: string;
 };
 type PressableListTitleNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,
   "TasksScreen"
 >;
 
-const PressableListTitle = ({ title }: PressableListTitleProps) => {
+const PressableListTitle = ({ list = "inbox" }: PressableListTitleProps) => {
   const navigation = useNavigation<PressableListTitleNavigationProp>();
   return (
     <Pressable
-      onPress={() => navigation.navigate("ListsScreen")}
+      onPress={() => navigation.navigate("ListsScreen", { selectedList: list })}
       style={styles.container}
     >
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{capitalizeWord(list)}</Text>
     </Pressable>
   );
 };

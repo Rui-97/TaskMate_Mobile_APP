@@ -25,7 +25,8 @@ type TaskItemNavigationProp = NativeStackNavigationProp<
 >;
 
 const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
-  const { moveToCompletedTasks, moveBackToTasks } = useContext(TasksContext);
+  const { markTaskAsCompleted, markTaskAsIncompleted } =
+    useContext(TasksContext);
   const navigation = useNavigation<TaskItemNavigationProp>();
   const isSwiping = useRef(false);
 
@@ -43,14 +44,14 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
   const incompleteTaskCheckboxSelectHandler = (isChecked: boolean) => {
     if (isChecked) {
       setTimeout(() => {
-        moveToCompletedTasks(id);
+        markTaskAsCompleted(id);
       }, 300);
     }
   };
   const completedTaskCheckboxSelectHandler = (isChecked: boolean) => {
     if (!isChecked) {
       setTimeout(() => {
-        moveBackToTasks(id);
+        markTaskAsIncompleted(id);
       }, 300);
     }
   };

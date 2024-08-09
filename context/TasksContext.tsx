@@ -5,33 +5,67 @@ import type { Task } from "../src/types";
 
 type TasksContextType = {
   tasks: Task[];
-  completedTasks: Task[];
   addTask: (newTask: Task) => void;
   deleteTask: (id: string) => void;
   updateTask: (id: string, updatedTask: Task) => void;
-  moveToCompletedTasks: (taskId: string) => void;
-  moveBackToTasks: (taskId: string) => void;
+  markTaskAsCompleted: (taskId: string) => void;
+  markTaskAsIncompleted: (taskId: string) => void;
+  getTasksByListAndCompletion: (list: string, isCompleted: boolean) => Task[];
 };
 
 export const TasksContext = createContext<TasksContextType>({
   tasks: [],
-  completedTasks: [],
   addTask: () => {},
   deleteTask: () => {},
   updateTask: () => {},
-  moveToCompletedTasks: () => {},
-  moveBackToTasks: () => {},
+  markTaskAsCompleted: () => {},
+  markTaskAsIncompleted: () => {},
+  getTasksByListAndCompletion: () => [],
 });
 
 const DUMMY_TASKS: Task[] = [
-  { id: "1", name: "tasks1", list: "inbox", date: "2024-07-06" },
-  { id: "2", name: "tasks2", list: "inbox", date: "2024-07-06" },
-  { id: "3", name: "tasks3", list: "inbox", date: "2024-07-06" },
-];
-const DUMMY_COMPLETED_TASKS: Task[] = [
-  { id: "4", name: "tasks4", list: "inbox", date: "2024-07-06" },
-  { id: "5", name: "tasks5", list: "inbox", date: "2024-07-06" },
-  { id: "6", name: "tasks6", list: "inbox", date: "2024-07-06" },
+  {
+    id: "1",
+    name: "tasks1",
+    list: "today",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
+  {
+    id: "2",
+    name: "tasks2",
+    list: "today",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
+  {
+    id: "3",
+    name: "tasks3",
+    list: "inbox",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
+  {
+    id: "4",
+    name: "tasks4",
+    list: "inbox",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
+  {
+    id: "5",
+    name: "tasks5",
+    list: "inbox",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
+  {
+    id: "6",
+    name: "tasks6",
+    list: "inbox",
+    date: "2024-07-06",
+    isCompleted: false,
+  },
 ];
 
 type TasksContextProviderProps = {
@@ -40,9 +74,6 @@ type TasksContextProviderProps = {
 
 const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
   const [tasks, setTasks] = useState<Task[]>(DUMMY_TASKS);
-  const [completedTasks, setCompletedTasks] = useState<Task[]>(
-    DUMMY_COMPLETED_TASKS
-  );
 
   //Tasks related methods ====================================
   const addTask = (newTask: Task) => {
@@ -64,44 +95,45 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     });
   };
 
-  //CompltedTasks related methods============================
-
-  //Move the task to the completed Task
-  const moveToCompletedTasks = (taskId: string) => {
-    const task = tasks.find((task) => task.id === taskId);
-    if (!task) {
-      console.warn(`Task with id ${taskId} not found.`);
-      return;
-    }
-    deleteTask(taskId);
-    setCompletedTasks((prev) => [task, ...prev]);
+  const markTaskAsCompleted = (taskId: string) => {
+    setTasks((prevTasks) => {
+      const taskIndex = prevTasks.findIndex((task) => task.id === taskId);
+      const updatedTasks = [...prevTasks];
+      updatedTasks[taskIndex] = { ...prevTasks[taskIndex], isCompleted: true };
+      return updatedTasks;
+    });
+  };
+  const markTaskAsIncompleted = (taskId: string) => {
+    setTasks((prevTasks) => {
+      const taskIndex = prevTasks.findIndex((task) => task.id === taskId);
+      const updatedTasks = [...prevTasks];
+      updatedTasks[taskIndex] = {
+        ...prevTasks[taskIndex],
+        isCompleted: false,
+      };
+      return updatedTasks;
+    });
   };
 
-  //Move completed task back to the task
-  const moveBackToTasks = (taskId: string) => {
-    const task = completedTasks.find((task) => task.id === taskId);
-    if (!task) {
-      console.warn(`Task with id ${taskId} not found.`);
-      return;
-    }
-
-    // delete the task from completed tasks
-    setCompletedTasks((prevTasks) =>
-      prevTasks.filter((task) => task.id !== taskId)
+  const getTasksByListAndCompletion = (
+    list: string,
+    isCompleted: boolean
+  ): Task[] => {
+    return tasks.filter(
+      (tasks) => tasks.list === list && tasks.isCompleted === isCompleted
     );
-    setTasks((prev) => [task, ...prev]);
   };
 
   return (
     <TasksContext.Provider
       value={{
         tasks,
-        completedTasks,
         addTask,
         deleteTask,
         updateTask,
-        moveToCompletedTasks,
-        moveBackToTasks,
+        markTaskAsCompleted,
+        markTaskAsIncompleted,
+        getTasksByListAndCompletion,
       }}
     >
       {children}

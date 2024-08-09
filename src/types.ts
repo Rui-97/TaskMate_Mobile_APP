@@ -1,10 +1,10 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type TaskStackParamList = {
-  TasksScreen: undefined;
+  TasksScreen: { list?: string };
   AddTaskScreen: { date?: string };
   UpdateTaskScreen: { date?: string; taskId?: string };
-  ListsScreen: undefined;
+  ListsScreen: { selectedList: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
 };
 
@@ -36,6 +36,7 @@ export type Task = {
   id: string;
   name: string;
   list: string;
+  isCompleted: boolean;
   date?: string;
   description?: string;
   priority?: string;
@@ -52,3 +53,7 @@ export type TaskValueIdentifer =
   | "date"
   | "priority"
   | "list";
+
+export type List = {
+  name: string;
+};

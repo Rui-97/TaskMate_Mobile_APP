@@ -5,12 +5,18 @@ import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
 import { paddingNmargin } from "../../../constants/styles";
 
-const Tasks = () => {
-  const { tasks } = useContext(TasksContext);
+type IncompletedTasksProps = {
+  list?: string;
+};
+const IncompletedTasks = ({ list = "inbox" }: IncompletedTasksProps) => {
+  const { getTasksByListAndCompletion } = useContext(TasksContext);
+  //Get incompleted tasks in the give list
+  const tasksToBeDisplayed = getTasksByListAndCompletion(list, false);
+
   return (
     <FlatList
       style={styles.container}
-      data={tasks}
+      data={tasksToBeDisplayed}
       renderItem={({ item }) => (
         <TaskItem
           name={item.name}
@@ -24,7 +30,7 @@ const Tasks = () => {
   );
 };
 
-export default Tasks;
+export default IncompletedTasks;
 const styles = StyleSheet.create({
   container: {
     marginVertical: paddingNmargin.standard,

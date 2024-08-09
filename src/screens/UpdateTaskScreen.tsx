@@ -33,12 +33,8 @@ const priorityOptions: MiniDropdownOption[] = [
   { label: "No Priority", value: "no" },
 ];
 
-type UpdateTaskScreenRouteProp = RouteProp<
-  TaskStackParamList,
-  "UpdateTaskScreen"
->;
 type UpdateTaskScreenProps = {
-  route: UpdateTaskScreenRouteProp;
+  route: RouteProp<TaskStackParamList, "UpdateTaskScreen">;
 };
 
 const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {

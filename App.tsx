@@ -1,18 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import RootTabNavigator from "./src/navigation/RootTabNavigator";
 import TasksContextProvider from "./context/TasksContext";
+import ListsContextProvider from "./context/ListsContext";
 
 export default function App() {
   return (
     <GestureHandlerRootView>
       <TasksContextProvider>
-        <NavigationContainer>
-          <RootTabNavigator />
-        </NavigationContainer>
+        <ListsContextProvider>
+          <NavigationContainer>
+            <RootTabNavigator />
+          </NavigationContainer>
+        </ListsContextProvider>
       </TasksContextProvider>
     </GestureHandlerRootView>
   );
