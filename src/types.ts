@@ -4,8 +4,9 @@ export type TaskStackParamList = {
   TasksScreen: { list?: string };
   AddTaskScreen: { date?: string };
   UpdateTaskScreen: { date?: string; taskId?: string };
-  ListsScreen: { selectedList: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
+  ListsScreen: { selectedList: string };
+  ManageListScreen: { action: "add" | "update" };
 };
 
 export type CalendarStackParamList = {
