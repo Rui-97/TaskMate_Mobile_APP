@@ -20,12 +20,9 @@ import type {
 import { TasksContext } from "../../context/TasksContext";
 import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
+import { ListsContext } from "../../context/ListsContext";
+import { capitalizeWord } from "../utils/utils";
 
-const listOptions: MiniDropdownOption[] = [
-  { label: "Today", value: "today" },
-  { label: "Inbox", value: "inbox" },
-  { label: "Poject1", value: "poject1" },
-];
 const priorityOptions: MiniDropdownOption[] = [
   { label: "High Priority", value: "high" },
   { label: "Medium Priority", value: "medium" },
@@ -48,6 +45,12 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     date: "",
     isCompleted: false,
   });
+  const { lists } = useContext(ListsContext);
+  const listOptions: MiniDropdownOption[] = lists.map((list) => ({
+    label: capitalizeWord(list.name),
+    value: list.name,
+  }));
+
   useEffect(() => {
     if (route.params?.date) {
       inputChangeHandler("date", route.params.date);

@@ -6,7 +6,7 @@ export type TaskStackParamList = {
   UpdateTaskScreen: { date?: string; taskId?: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
   ListsScreen: { selectedList: string };
-  ManageListScreen: { action: "add" | "update" };
+  ManageListScreen: { action: "add" | "update"; listId?: string };
 };
 
 export type CalendarStackParamList = {
@@ -56,5 +56,7 @@ export type TaskValueIdentifer =
   | "list";
 
 export type List = {
+  id: string;
   name: string;
+  isDefault: boolean;
 };

@@ -1,45 +1,65 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
+import { useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Swipeable } from "react-native-gesture-handler";
 
 import { paddingNmargin } from "../../../constants/styles";
 import { capitalizeWord } from "../../utils/utils";
-import { TaskStackParamList } from "../../types";
+import type { TaskStackParamList } from "../../types";
+import type { List } from "../../types";
+import RightActions from "./RightActions";
 
 type ListItemNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,
   "ListsScreen"
 >;
 type ListItemProps = {
-  name: string;
+  list: List;
   taskNumber: number;
   isSelected: boolean;
   onSelect: (list: string) => void;
 };
 
 const ListItem = ({
-  name,
+  list,
   taskNumber,
   isSelected,
   onSelect,
 }: ListItemProps) => {
   const navigation = useNavigation<ListItemNavigationProp>();
+  const isSwiping = useRef(false);
+
   const pressHandler = () => {
-    onSelect(name);
     setTimeout(() => {
-      navigation.navigate("TasksScreen", { list: name });
-    }, 100);
+      if (!isSwiping.current) {
+        onSelect(list.name);
+        setTimeout(
+          () => navigation.navigate("TasksScreen", { list: list.name }),
+          100
+        );
+      }
+    }, 50);
   };
+
   return (
-    <View>
+    <Swipeable
+      renderRightActions={(progress) => {
+        if (!list.isDefault) {
+          return <RightActions progress={progress} listId={list.id} />;
+        }
+      }}
+      onSwipeableWillOpen={() => (isSwiping.current = true)}
+      onSwipeableClose={() => (isSwiping.current = false)}
+    >
       <Pressable
-        style={[styles.container, isSelected && styles.activeStyle]}
         onPress={pressHandler}
+        style={[styles.container, isSelected && styles.selectStyle]}
       >
-        <Text style={styles.title}>{capitalizeWord(name)}</Text>
+        <Text style={styles.title}>{capitalizeWord(list.name)}</Text>
         <Text style={styles.title}>{taskNumber}</Text>
       </Pressable>
-    </View>
+    </Swipeable>
   );
 };
 
@@ -54,9 +74,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 
-  activeStyle: {
+  selectStyle: {
     backgroundColor: "#c75e5e",
   },
+
   title: {
     fontSize: 18,
   },

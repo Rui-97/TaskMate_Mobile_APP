@@ -8,7 +8,6 @@ import {
   Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { RouteProp } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { paddingNmargin, fontSize } from "../../constants/styles";
@@ -44,14 +43,13 @@ const ListsScreen = ({ route, navigation }: ListScreenProps) => {
           <Icon name="plus" size={20} />
         </Pressable>
       </View>
-
       {/* Lists */}
       <FlatList
         data={lists}
         renderItem={({ item, index }) => (
           <ListItem
             key={index}
-            name={item.name}
+            list={item}
             taskNumber={getTasksByListAndCompletion(item.name, false).length}
             isSelected={item.name === selectedList}
             onSelect={selectHandler}

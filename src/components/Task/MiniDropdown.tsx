@@ -40,8 +40,9 @@ const MiniDropdown = ({
         iconStyle={styles.iconStyle}
         placeholderStyle={styles.placeholder}
         selectedTextStyle={styles.selectedText}
-        data={options}
+        containerStyle={styles.optionsContainer}
         maxHeight={300}
+        data={options}
         labelField="label"
         valueField="value"
         placeholder={placeholder}
@@ -89,5 +90,8 @@ const styles = StyleSheet.create({
   selectedText: {
     fontSize: 14,
     color: "#687dcc",
+  },
+  optionsContainer: {
+    borderRadius: 5,
   },
 });

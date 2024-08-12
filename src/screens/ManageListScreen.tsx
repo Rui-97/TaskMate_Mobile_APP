@@ -11,15 +11,28 @@ import { capitalizeWord } from "../utils/utils";
 type Props = NativeStackScreenProps<TaskStackParamList, "ManageListScreen">;
 
 const ManageListScreen = ({ navigation, route }: Props) => {
-  const [listName, setListName] = useState("");
-  const { addList } = useContext(ListsContext);
+  const { lists, addList, updateList } = useContext(ListsContext);
   const action = route.params.action;
+  const listId = route.params.listId;
+  const initalListName =
+    action === "update" ? lists.find((list) => list.id === listId)!.name : "";
+  const [listName, setListName] = useState(initalListName);
 
   const doneBtnHandler = () => {
-    if (listName.trim()) {
-      addList({ name: listName });
-      navigation.goBack();
+    if (!listName.trim()) return;
+
+    if (action === "add") {
+      const id = listName.trim();
+      addList({
+        id: id,
+        name: listName.trim().toLowerCase(),
+        isDefault: false,
+      });
     }
+    if (action === "update") {
+      updateList(listId!, { name: listName });
+    }
+    navigation.goBack();
   };
   return (
     <View style={styles.screen}>
