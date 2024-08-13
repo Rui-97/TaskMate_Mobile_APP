@@ -27,14 +27,14 @@ const DUMMY_TASKS: Task[] = [
   {
     id: "1",
     name: "tasks1",
-    list: "today",
+    list: "inbox",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "2",
     name: "tasks2",
-    list: "today",
+    list: "inbox",
     date: "2024-07-06",
     isCompleted: false,
   },

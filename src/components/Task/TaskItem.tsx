@@ -9,7 +9,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import RightActions from "./RightActions";
 import { TasksContext } from "../../../context/TasksContext";
 import { formatDateBasedOnVal } from "../../utils/utils";
-import { paddingNmargin } from "../../../constants/styles";
 import type { TaskStackParamList } from "../../types";
 
 type TaskItemProps = {
@@ -77,6 +76,7 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
               }
               isChecked={isCompleted ? true : false}
               bounceEffectIn={1.1}
+              size={22}
             />
           </View>
           <View>
@@ -111,11 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderColor: "#d3d3d3",
-    borderWidth: 0.5,
-    borderRadius: 6,
-    padding: paddingNmargin.small,
-    marginBottom: paddingNmargin.small,
+    padding: 10,
     backgroundColor: "#ffffff",
   },
   taskContainer: {

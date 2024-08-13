@@ -13,7 +13,7 @@ type CompletedTasksProps = {
 const CompletedTasks = ({ list = "inbox" }: CompletedTasksProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { getTasksByListAndCompletion } = useContext(TasksContext);
-  //Get completed tasks in the give list
+  //Get completed tasks in the given list
   const tasksToBeDisplayed = getTasksByListAndCompletion(list, true);
 
   return (
@@ -30,9 +30,15 @@ const CompletedTasks = ({ list = "inbox" }: CompletedTasksProps) => {
         }
         isExpanded={isExpanded}
         onPress={() => setIsExpanded(!isExpanded)}
-        containerStyle={styles.accordionHeader}
+        containerStyle={[
+          styles.accordionHeader,
+          isExpanded && {
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          },
+        ]}
       >
-        {tasksToBeDisplayed.map((task, i) => (
+        {tasksToBeDisplayed.map((task) => (
           <TaskItem
             key={task.id}
             id={task.id}
@@ -52,9 +58,7 @@ const styles = StyleSheet.create({
     marginVertical: paddingNmargin.standard,
   },
   accordionHeader: {
-    borderColor: "#d3d3d3",
-    borderWidth: 0.5,
-    borderRadius: 6,
+    borderRadius: 10,
     padding: paddingNmargin.small,
   },
 });

@@ -34,5 +34,6 @@ export default IncompletedTasks;
 const styles = StyleSheet.create({
   container: {
     marginVertical: paddingNmargin.standard,
+    borderRadius: 10,
   },
 });
