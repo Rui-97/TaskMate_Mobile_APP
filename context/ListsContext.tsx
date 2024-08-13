@@ -8,6 +8,7 @@ type ListsContextType = {
   addList: (newList: List) => void;
   deleteList: (id: string) => void;
   updateList: (id: string, updateData) => void;
+  getListNameById: (id: string) => string | undefined;
 };
 
 export const ListsContext = createContext<ListsContextType>({
@@ -15,6 +16,7 @@ export const ListsContext = createContext<ListsContextType>({
   addList: () => {},
   deleteList: () => {},
   updateList: () => {},
+  getListNameById: () => undefined,
 });
 
 type ListsContextProviderProps = {
@@ -33,7 +35,7 @@ const ListsContextProvider = ({ children }: ListsContextProviderProps) => {
     setLists((prevLists) => [...prevLists, newList]);
   };
   const deleteList = (id: string) => {
-    setLists((prevList) => prevList.filter((list) => list.id !== id));
+    setLists((prevLists) => prevLists.filter((list) => list.id !== id));
   };
   const updateList = (id: string, updateData: { name: string }) => {
     setLists((prevLists) => {
@@ -49,8 +51,14 @@ const ListsContextProvider = ({ children }: ListsContextProviderProps) => {
       return updatedLists;
     });
   };
+  const getListNameById = (id: string) => {
+    const list = lists.find((list) => list.id === id);
+    return list ? list.name : undefined;
+  };
   return (
-    <ListsContext.Provider value={{ lists, addList, deleteList, updateList }}>
+    <ListsContext.Provider
+      value={{ lists, addList, deleteList, updateList, getListNameById }}
+    >
       {children}
     </ListsContext.Provider>
   );

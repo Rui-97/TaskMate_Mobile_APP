@@ -6,12 +6,12 @@ import TaskItem from "./TaskItem";
 import { paddingNmargin } from "../../../constants/styles";
 
 type IncompletedTasksProps = {
-  list?: string;
+  listId?: string;
 };
-const IncompletedTasks = ({ list = "inbox" }: IncompletedTasksProps) => {
-  const { getTasksByListAndCompletion } = useContext(TasksContext);
-  //Get incompleted tasks in the give list
-  const tasksToBeDisplayed = getTasksByListAndCompletion(list, false);
+const IncompletedTasks = ({ listId = "2" }: IncompletedTasksProps) => {
+  const { getTasksByListIdAndCompletion } = useContext(TasksContext);
+  //Get incompleted tasks in the give list id
+  const tasksToBeDisplayed = getTasksByListIdAndCompletion(listId, false);
 
   return (
     <FlatList

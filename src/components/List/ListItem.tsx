@@ -1,5 +1,5 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Swipeable } from "react-native-gesture-handler";
@@ -19,6 +19,7 @@ type ListItemProps = {
   taskNumber: number;
   isSelected: boolean;
   onSelect: (list: string) => void;
+  onDelete: (listId: string) => void;
 };
 
 const ListItem = ({
@@ -26,6 +27,7 @@ const ListItem = ({
   taskNumber,
   isSelected,
   onSelect,
+  onDelete,
 }: ListItemProps) => {
   const navigation = useNavigation<ListItemNavigationProp>();
   const isSwiping = useRef(false);
@@ -33,9 +35,9 @@ const ListItem = ({
   const pressHandler = () => {
     setTimeout(() => {
       if (!isSwiping.current) {
-        onSelect(list.name);
+        onSelect(list.id);
         setTimeout(
-          () => navigation.navigate("TasksScreen", { list: list.name }),
+          () => navigation.navigate("TasksScreen", { listId: list.id }),
           100
         );
       }
@@ -46,7 +48,13 @@ const ListItem = ({
     <Swipeable
       renderRightActions={(progress) => {
         if (!list.isDefault) {
-          return <RightActions progress={progress} listId={list.id} />;
+          return (
+            <RightActions
+              progress={progress}
+              listId={list.id}
+              onDelete={onDelete}
+            />
+          );
         }
       }}
       onSwipeableWillOpen={() => (isSwiping.current = true)}

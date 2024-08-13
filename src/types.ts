@@ -1,11 +1,11 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type TaskStackParamList = {
-  TasksScreen: { list?: string };
+  TasksScreen: { listId?: string };
   AddTaskScreen: { date?: string };
   UpdateTaskScreen: { date?: string; taskId?: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
-  ListsScreen: { selectedList: string };
+  ListsScreen: { selectedListId: string };
   ManageListScreen: { action: "add" | "update"; listId?: string };
 };
 
@@ -36,7 +36,7 @@ export type BottomTabParamList = {
 export type Task = {
   id: string;
   name: string;
-  list: string;
+  listId: string;
   isCompleted: boolean;
   date?: string;
   description?: string;
@@ -53,7 +53,7 @@ export type TaskValueIdentifer =
   | "description"
   | "date"
   | "priority"
-  | "list";
+  | "listId";
 
 export type List = {
   id: string;

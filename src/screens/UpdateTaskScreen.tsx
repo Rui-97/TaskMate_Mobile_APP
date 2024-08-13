@@ -18,14 +18,11 @@ import type {
   Task,
 } from "../types";
 import { TasksContext } from "../../context/TasksContext";
+import { ListsContext } from "../../context/ListsContext";
 import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
+import { capitalizeWord } from "../utils/utils";
 
-const listOptions: MiniDropdownOption[] = [
-  { label: "Today", value: "today" },
-  { label: "Inbox", value: "inbox" },
-  { label: "Poject1", value: "poject1" },
-];
 const priorityOptions: MiniDropdownOption[] = [
   { label: "High Priority", value: "high" },
   { label: "Medium Priority", value: "medium" },
@@ -42,6 +39,11 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
   const taskId = route.params.taskId;
   const initalTask: Task = tasks.find((task) => task.id === taskId) as Task;
   const [task, setTask] = useState<Task>(initalTask);
+  const { lists } = useContext(ListsContext);
+  const listOptions: MiniDropdownOption[] = lists.map((list) => ({
+    label: capitalizeWord(list.name),
+    value: list.id,
+  }));
 
   useEffect(() => {
     if (route.params?.date) {
@@ -95,18 +97,18 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
           />
           <MiniDropdown
             options={listOptions}
-            val={task.list}
+            val={task.listId}
             placeholder="List"
             iconName="file-tray-outline"
             onValueChange={inputChangeHandler}
-            taskValueIdentifier="list"
+            taskValueIdentifier="listId"
           />
           <MiniDropdown
             options={listOptions}
             placeholder="Test"
             iconName="flag-outline"
             onValueChange={inputChangeHandler}
-            taskValueIdentifier="list"
+            taskValueIdentifier="listId"
           />
         </ScrollView>
         <SubmitTaskBtn onSubmit={submitTaskHandler} />

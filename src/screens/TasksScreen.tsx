@@ -14,7 +14,7 @@ import PressableListTitle from "../components/Task/PressableListTitle";
 import AddTaskBtn from "../components/Task/AddTaskBtn";
 import IncompletedTasks from "../components/Task/IncompetedTasks";
 import CompletedTasks from "../components/Task/CompletedTasks";
-import { fontSize, paddingNmargin } from "../../constants/styles";
+import { paddingNmargin } from "../../constants/styles";
 import { TaskStackParamList } from "../types";
 import { TasksContext } from "../../context/TasksContext";
 
@@ -22,10 +22,11 @@ type TasksScreenProps = {
   route: RouteProp<TaskStackParamList, "TasksScreen">;
 };
 const TasksScreen = ({ route }: TasksScreenProps) => {
-  const { getTasksByListAndCompletion } = useContext(TasksContext);
-  const listName = route.params?.list;
+  const { getTasksByListIdAndCompletion } = useContext(TasksContext);
+  const listId = route.params?.listId;
+  console.log("tasks screen list id:" + listId);
   const TasksNumInList =
-    listName && getTasksByListAndCompletion(listName!, false).length;
+    listId && getTasksByListIdAndCompletion(listId!, false).length;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -33,7 +34,7 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
         {/* Header */}
         <View style={styles.titleRow}>
           <View style={styles.title}>
-            <PressableListTitle list={listName} />
+            <PressableListTitle listId={listId} />
           </View>
           <Pressable>
             <Icon name="more-horizontal" size={25} />
@@ -51,8 +52,8 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
           </View>
         ) : (
           <View>
-            <IncompletedTasks list={listName} />
-            <CompletedTasks list={listName} />
+            <IncompletedTasks listId={listId} />
+            <CompletedTasks listId={listId} />
           </View>
         )}
         <AddTaskBtn />

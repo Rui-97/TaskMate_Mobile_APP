@@ -10,7 +10,11 @@ type TasksContextType = {
   updateTask: (id: string, updatedTask: Task) => void;
   markTaskAsCompleted: (taskId: string) => void;
   markTaskAsIncompleted: (taskId: string) => void;
-  getTasksByListAndCompletion: (list: string, isCompleted: boolean) => Task[];
+  getTasksByListIdAndCompletion: (
+    listId: string,
+    isCompleted: boolean
+  ) => Task[];
+  deleteTasksByListId: (listId: string) => void;
 };
 
 export const TasksContext = createContext<TasksContextType>({
@@ -20,49 +24,50 @@ export const TasksContext = createContext<TasksContextType>({
   updateTask: () => {},
   markTaskAsCompleted: () => {},
   markTaskAsIncompleted: () => {},
-  getTasksByListAndCompletion: () => [],
+  getTasksByListIdAndCompletion: () => [],
+  deleteTasksByListId: () => {},
 });
 
 const DUMMY_TASKS: Task[] = [
   {
     id: "1",
     name: "tasks1",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "2",
     name: "tasks2",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "3",
     name: "tasks3",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "4",
     name: "tasks4",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "5",
     name: "tasks5",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
   {
     id: "6",
     name: "tasks6",
-    list: "inbox",
+    listId: "2",
     date: "2024-07-06",
     isCompleted: false,
   },
@@ -115,12 +120,17 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     });
   };
 
-  const getTasksByListAndCompletion = (
-    list: string,
+  const getTasksByListIdAndCompletion = (
+    listId: string,
     isCompleted: boolean
   ): Task[] => {
     return tasks.filter(
-      (tasks) => tasks.list === list && tasks.isCompleted === isCompleted
+      (tasks) => tasks.listId === listId && tasks.isCompleted === isCompleted
+    );
+  };
+  const deleteTasksByListId = (listId: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.filter((tasks) => tasks.listId !== listId)
     );
   };
 
@@ -133,7 +143,8 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         updateTask,
         markTaskAsCompleted,
         markTaskAsIncompleted,
-        getTasksByListAndCompletion,
+        getTasksByListIdAndCompletion,
+        deleteTasksByListId,
       }}
     >
       {children}

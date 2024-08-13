@@ -1,24 +1,22 @@
-import React, { useContext } from "react";
 import { Animated, Pressable, View, StyleSheet } from "react-native";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
-import { ListsContext } from "../../../context/ListsContext";
 import { TaskStackParamList } from "../../types";
 import { paddingNmargin } from "../../../constants/styles";
 
 type RightActionsProps = {
   progress: Animated.AnimatedInterpolation<number>;
   listId: string;
+  onDelete: (listId: string) => void;
 };
 type RightActionsNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,
   "ListsScreen"
 >;
 
-const RightActions = ({ progress, listId }: RightActionsProps) => {
-  const { deleteList } = useContext(ListsContext);
+const RightActions = ({ progress, listId, onDelete }: RightActionsProps) => {
   const navigation = useNavigation<RightActionsNavigationProp>();
 
   return (
@@ -63,7 +61,7 @@ const RightActions = ({ progress, listId }: RightActionsProps) => {
         }}
       >
         <Pressable
-          onPress={() => deleteList(listId)}
+          onPress={() => onDelete(listId)}
           style={[
             styles.rightAction,
             {

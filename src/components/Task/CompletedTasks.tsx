@@ -7,14 +7,14 @@ import TaskItem from "./TaskItem";
 import { paddingNmargin } from "../../../constants/styles";
 
 type CompletedTasksProps = {
-  list?: string;
+  listId?: string;
 };
 
-const CompletedTasks = ({ list = "inbox" }: CompletedTasksProps) => {
+const CompletedTasks = ({ listId = "2" }: CompletedTasksProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { getTasksByListAndCompletion } = useContext(TasksContext);
-  //Get completed tasks in the given list
-  const tasksToBeDisplayed = getTasksByListAndCompletion(list, true);
+  const { getTasksByListIdAndCompletion } = useContext(TasksContext);
+  //Get completed tasks in the given list id
+  const tasksToBeDisplayed = getTasksByListIdAndCompletion(listId, true);
 
   return (
     <View style={styles.container}>

@@ -40,7 +40,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     id: "",
     name: "",
     description: "",
-    list: "",
+    listId: "",
     priority: "",
     date: "",
     isCompleted: false,
@@ -48,7 +48,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
   const { lists } = useContext(ListsContext);
   const listOptions: MiniDropdownOption[] = lists.map((list) => ({
     label: capitalizeWord(list.name),
-    value: list.name,
+    value: list.id,
   }));
 
   useEffect(() => {
@@ -107,14 +107,14 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
             placeholder="List"
             iconName="file-tray-outline"
             onValueChange={inputChangeHandler}
-            taskValueIdentifier="list"
+            taskValueIdentifier="listId"
           />
           <MiniDropdown
             options={listOptions}
             placeholder="Test"
             iconName="flag-outline"
             onValueChange={inputChangeHandler}
-            taskValueIdentifier="list"
+            taskValueIdentifier="listId"
           />
         </ScrollView>
         <SubmitTaskBtn onSubmit={submitTaskHandler} />
