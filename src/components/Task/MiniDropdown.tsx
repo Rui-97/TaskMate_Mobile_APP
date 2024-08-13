@@ -17,7 +17,7 @@ type MiniDropdownProps = {
 
 const MiniDropdown = ({
   placeholder,
-  val = "",
+  val,
   iconName,
   options,
   onValueChange,

@@ -21,7 +21,7 @@ import { TasksContext } from "../../context/TasksContext";
 import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 import { ListsContext } from "../../context/ListsContext";
-import { capitalizeWord } from "../utils/utils";
+import { capitalizeWord, formatDate } from "../utils/utils";
 
 const priorityOptions: MiniDropdownOption[] = [
   { label: "High Priority", value: "high" },
@@ -36,13 +36,16 @@ type AddTaskScreenProps = {
 
 const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
   const { addTask } = useContext(TasksContext);
+  const initalListId = route.params.listId ? route.params.listId : "";
+  //Set inital date if the list is "Today"
+  const initalDate = initalListId === "1" ? formatDate(new Date()) : "";
   const [task, setTask] = useState<Task>({
     id: "",
     name: "",
     description: "",
-    listId: "",
+    listId: initalListId,
     priority: "",
-    date: "",
+    date: initalDate,
     isCompleted: false,
   });
   const { lists } = useContext(ListsContext);
@@ -55,7 +58,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     if (route.params?.date) {
       inputChangeHandler("date", route.params.date);
     }
-  }, [route.params?.date]);
+  }, [route.params.date]);
 
   const inputChangeHandler = (
     valueIdentifer: TaskValueIdentifer,
@@ -99,6 +102,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
             options={priorityOptions}
             placeholder="Priority"
             iconName="flag-outline"
+            val={task.priority}
             onValueChange={inputChangeHandler}
             taskValueIdentifier="priority"
           />
@@ -106,13 +110,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
             options={listOptions}
             placeholder="List"
             iconName="file-tray-outline"
-            onValueChange={inputChangeHandler}
-            taskValueIdentifier="listId"
-          />
-          <MiniDropdown
-            options={listOptions}
-            placeholder="Test"
-            iconName="flag-outline"
+            val={task.listId}
             onValueChange={inputChangeHandler}
             taskValueIdentifier="listId"
           />

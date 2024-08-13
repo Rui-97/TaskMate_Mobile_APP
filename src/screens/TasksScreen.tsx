@@ -24,7 +24,6 @@ type TasksScreenProps = {
 const TasksScreen = ({ route }: TasksScreenProps) => {
   const { getTasksByListIdAndCompletion } = useContext(TasksContext);
   const listId = route.params?.listId;
-  console.log("tasks screen list id:" + listId);
   const TasksNumInList =
     listId && getTasksByListIdAndCompletion(listId!, false).length;
 
@@ -56,7 +55,7 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
             <CompletedTasks listId={listId} />
           </View>
         )}
-        <AddTaskBtn />
+        <AddTaskBtn destinationListId={listId!} />
       </View>
     </SafeAreaView>
   );

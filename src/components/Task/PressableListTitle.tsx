@@ -18,7 +18,6 @@ type PressableListTitleNavigationProp = NativeStackNavigationProp<
 
 const PressableListTitle = ({ listId = "2" }: PressableListTitleProps) => {
   const { getListNameById } = useContext(ListsContext);
-  console.log("id:" + listId);
   const listName = getListNameById(listId);
   const navigation = useNavigation<PressableListTitleNavigationProp>();
   return (

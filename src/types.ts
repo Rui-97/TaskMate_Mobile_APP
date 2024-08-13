@@ -2,7 +2,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type TaskStackParamList = {
   TasksScreen: { listId?: string };
-  AddTaskScreen: { date?: string };
+  AddTaskScreen: { date?: string; listId?: string };
   UpdateTaskScreen: { date?: string; taskId?: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
   ListsScreen: { selectedListId: string };

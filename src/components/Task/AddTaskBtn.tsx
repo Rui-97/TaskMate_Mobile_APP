@@ -9,17 +9,17 @@ type AddTaskBtnNavigationProp = NativeStackNavigationProp<
   TaskStackParamList,
   "TasksScreen"
 >;
+type AddTaskBtnProps = {
+  destinationListId: string;
+};
 
-const AddTaskBtn = () => {
+const AddTaskBtn = ({ destinationListId }: AddTaskBtnProps) => {
   const navigation = useNavigation<AddTaskBtnNavigationProp>();
 
   return (
     <Pressable
       onPress={() =>
-        navigation.navigate({
-          name: "AddTaskScreen",
-          params: { date: undefined },
-        })
+        navigation.navigate("AddTaskScreen", { listId: destinationListId })
       }
       style={styles.btn}
     >
