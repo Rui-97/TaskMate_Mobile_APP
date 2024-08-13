@@ -54,10 +54,29 @@ const ListItem = ({
     >
       <Pressable
         onPress={pressHandler}
-        style={[styles.container, isSelected && styles.selectStyle]}
+        style={[
+          styles.container,
+          isSelected && {
+            backgroundColor: "#687dcc",
+          },
+        ]}
       >
-        <Text style={styles.title}>{capitalizeWord(list.name)}</Text>
-        <Text style={styles.title}>{taskNumber}</Text>
+        <Text
+          style={[
+            styles.title,
+            isSelected && { color: "white", fontWeight: "600" },
+          ]}
+        >
+          {capitalizeWord(list.name)}
+        </Text>
+        <Text
+          style={[
+            styles.title,
+            isSelected && { color: "white", fontWeight: "600" },
+          ]}
+        >
+          {taskNumber}
+        </Text>
       </Pressable>
     </Swipeable>
   );
@@ -76,7 +95,8 @@ const styles = StyleSheet.create({
   },
 
   selectStyle: {
-    backgroundColor: "#c75e5e",
+    backgroundColor: "#687dcc",
+    color: "white",
   },
 
   title: {

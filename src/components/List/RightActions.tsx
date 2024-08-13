@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { ListsContext } from "../../../context/ListsContext";
 import { TaskStackParamList } from "../../types";
+import { paddingNmargin } from "../../../constants/styles";
 
 type RightActionsProps = {
   progress: Animated.AnimatedInterpolation<number>;
@@ -91,5 +92,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 12,
+    marginBottom: paddingNmargin.small,
   },
 });
