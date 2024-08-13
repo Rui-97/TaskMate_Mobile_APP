@@ -49,8 +49,6 @@ const CompletedTasks = ({ list = "inbox" }: CompletedTasksProps) => {
 export default CompletedTasks;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // borderWidth: 2,
     marginVertical: paddingNmargin.standard,
   },
   accordionHeader: {

@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: paddingNmargin.small,
     paddingHorizontal: 12,
+    marginBottom: paddingNmargin.small,
     borderRadius: 8,
   },
 
