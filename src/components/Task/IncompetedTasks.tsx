@@ -22,14 +22,7 @@ const IncompletedTasks = ({ listId = "2", sortBy }: IncompletedTasksProps) => {
     <FlatList
       style={styles.container}
       data={sortedTasks}
-      renderItem={({ item }) => (
-        <TaskItem
-          name={item.name}
-          date={item.date}
-          id={item.id}
-          isCompleted={false}
-        />
-      )}
+      renderItem={({ item }) => <TaskItem key={item.id} task={item} />}
       keyExtractor={(item) => item.id}
     />
   );

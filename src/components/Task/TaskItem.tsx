@@ -9,13 +9,10 @@ import { Swipeable } from "react-native-gesture-handler";
 import RightActions from "./RightActions";
 import { TasksContext } from "../../../context/TasksContext";
 import { formatDateBasedOnVal } from "../../utils/utils";
-import type { TaskStackParamList } from "../../types";
+import type { TaskStackParamList, Task } from "../../types";
 
 type TaskItemProps = {
-  id: string;
-  name: string;
-  date?: string;
-  isCompleted: boolean;
+  task: Task;
 };
 
 type TaskItemNavigationProp = NativeStackNavigationProp<
@@ -23,11 +20,12 @@ type TaskItemNavigationProp = NativeStackNavigationProp<
   "TasksScreen"
 >;
 
-const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
+const TaskItem = ({ task }: TaskItemProps) => {
   const { markTaskAsCompleted, markTaskAsIncompleted } =
     useContext(TasksContext);
   const navigation = useNavigation<TaskItemNavigationProp>();
   const isSwiping = useRef(false);
+  const { id, name, date, isCompleted } = task;
 
   const pressHandler = () => {
     if (!isCompleted && !isSwiping.current) {
@@ -79,18 +77,16 @@ const TaskItem = ({ id, name, date, isCompleted }: TaskItemProps) => {
               size={22}
             />
           </View>
-          <View>
-            <Text
-              style={[
-                styles.taskContainer,
-                isCompleted
-                  ? { color: "#b5b4b4", fontSize: 15 }
-                  : { color: "#000000", fontSize: 15 },
-              ]}
-            >
-              {name}
-            </Text>
-          </View>
+          <Text
+            style={[
+              styles.taskContainer,
+              isCompleted
+                ? { color: "#b5b4b4", fontSize: 15 }
+                : { color: "#000000", fontSize: 15 },
+            ]}
+          >
+            {name}
+          </Text>
           <View style={styles.timeContainer}>
             <Text
               style={isCompleted ? { color: "#b5b4b4" } : { color: "#000000" }}

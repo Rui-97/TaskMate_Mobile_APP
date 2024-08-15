@@ -44,13 +44,7 @@ const CompletedTasks = ({ listId = "2", sortBy }: CompletedTasksProps) => {
         ]}
       >
         {sortedTasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            id={task.id}
-            name={task.name}
-            date={task.date}
-            isCompleted
-          />
+          <TaskItem key={task.id} task={task} />
         ))}
       </ListItem.Accordion>
     </View>
