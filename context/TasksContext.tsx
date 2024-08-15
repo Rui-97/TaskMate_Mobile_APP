@@ -38,6 +38,7 @@ const DUMMY_TASKS: Task[] = [
     date: "2024-07-16",
     isCompleted: false,
     priority: "no",
+    description: "sdfsdfsdfsdfsdfsdfsdfsdf",
   },
   {
     id: "2",

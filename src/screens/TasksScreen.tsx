@@ -32,6 +32,7 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
   const [IsCompletedVisible, setIsCompletedVisible] = useState(true);
   const [selectedSortOption, setSelectedSortOption] =
     useState<SortOptions>("default");
+  const [showTaskDetails, setShowTaskDetails] = useState(false);
   const { getTasksByListIdAndCompletion } = useContext(TasksContext);
   const listId = route.params?.listId;
   const TasksNumInList =
@@ -40,8 +41,18 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
   const toggleCompletedVisible = () => {
     setIsCompletedVisible(!IsCompletedVisible);
   };
+  const toggleShowTaskDetails = () => {
+    setShowTaskDetails(!showTaskDetails);
+  };
 
   const moreOptionsData = [
+    {
+      icon: "sort-amount-down",
+      text: "Show Details",
+      needCheckIcon: true,
+      showCheckIcon: showTaskDetails,
+      pressHandler: toggleShowTaskDetails,
+    },
     {
       icon: "check-double",
       text: "Show Completed",
@@ -83,7 +94,11 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
           </View>
         ) : (
           <View>
-            <IncompletedTasks listId={listId} sortBy={selectedSortOption} />
+            <IncompletedTasks
+              listId={listId}
+              sortBy={selectedSortOption}
+              showDetails={showTaskDetails}
+            />
             {IsCompletedVisible && (
               <CompletedTasks listId={listId} sortBy={selectedSortOption} />
             )}

@@ -9,8 +9,13 @@ import type { SortOptions } from "../../types";
 type IncompletedTasksProps = {
   listId?: string;
   sortBy: SortOptions;
+  showDetails: boolean;
 };
-const IncompletedTasks = ({ listId = "2", sortBy }: IncompletedTasksProps) => {
+const IncompletedTasks = ({
+  listId = "2",
+  sortBy,
+  showDetails,
+}: IncompletedTasksProps) => {
   const { getTasksByListIdAndCompletion, sortTasksBy } =
     useContext(TasksContext);
   //Get incompleted tasks in the give list id
@@ -22,7 +27,9 @@ const IncompletedTasks = ({ listId = "2", sortBy }: IncompletedTasksProps) => {
     <FlatList
       style={styles.container}
       data={sortedTasks}
-      renderItem={({ item }) => <TaskItem key={item.id} task={item} />}
+      renderItem={({ item }) => (
+        <TaskItem key={item.id} task={item} showDetails={showDetails} />
+      )}
       keyExtractor={(item) => item.id}
     />
   );
