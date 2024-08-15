@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createContext, useState } from "react";
 
-import type { Task } from "../src/types";
+import type { Task, SortOptions } from "../src/types";
 
 type TasksContextType = {
   tasks: Task[];
@@ -15,6 +15,7 @@ type TasksContextType = {
     isCompleted: boolean
   ) => Task[];
   deleteTasksByListId: (listId: string) => void;
+  sortTasksBy: (givenTasks: Task[], sortBy: SortOptions) => Task[];
 };
 
 export const TasksContext = createContext<TasksContextType>({
@@ -26,30 +27,31 @@ export const TasksContext = createContext<TasksContextType>({
   markTaskAsIncompleted: () => {},
   getTasksByListIdAndCompletion: () => [],
   deleteTasksByListId: () => {},
+  sortTasksBy: () => [],
 });
 
 const DUMMY_TASKS: Task[] = [
   {
     id: "1",
-    name: "tasks1",
+    name: "a",
     listId: "2",
-    date: "2024-07-06",
+    date: "2024-07-16",
     isCompleted: false,
     priority: "no",
   },
   {
     id: "2",
-    name: "tasks2",
+    name: "b",
     listId: "2",
-    date: "2024-07-06",
+    date: "2024-07-26",
     isCompleted: false,
     priority: "no",
   },
   {
     id: "3",
-    name: "tasks3",
+    name: "c",
     listId: "2",
-    date: "2024-07-06",
+    date: "2024-07-08",
     isCompleted: false,
     priority: "high",
   },
@@ -139,6 +141,31 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
       prevTasks.filter((tasks) => tasks.listId !== listId)
     );
   };
+  const sortTasksBy = (givenTasks: Task[], sortBy: SortOptions) => {
+    const priorityOrder = {
+      high: 1,
+      medium: 2,
+      low: 3,
+      no: 4,
+    };
+
+    switch (sortBy) {
+      case "name":
+        givenTasks.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "date":
+        givenTasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+        break;
+      case "priority":
+        givenTasks.sort(
+          (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+        );
+        break;
+      default:
+        break;
+    }
+    return givenTasks;
+  };
 
   return (
     <TasksContext.Provider
@@ -151,6 +178,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         markTaskAsIncompleted,
         getTasksByListIdAndCompletion,
         deleteTasksByListId,
+        sortTasksBy,
       }}
     >
       {children}

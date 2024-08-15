@@ -60,3 +60,5 @@ export type List = {
   name: string;
   isDefault: boolean;
 };
+
+export type SortOptions = "name" | "date" | "priority" | "default";

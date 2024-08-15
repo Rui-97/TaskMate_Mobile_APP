@@ -5,16 +5,21 @@ import { ListItem } from "@rneui/themed";
 import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
 import { paddingNmargin } from "../../../constants/styles";
+import type { SortOptions } from "../../types";
 
 type CompletedTasksProps = {
   listId?: string;
+  sortBy: SortOptions;
 };
 
-const CompletedTasks = ({ listId = "2" }: CompletedTasksProps) => {
+const CompletedTasks = ({ listId = "2", sortBy }: CompletedTasksProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { getTasksByListIdAndCompletion } = useContext(TasksContext);
+  const { getTasksByListIdAndCompletion, sortTasksBy } =
+    useContext(TasksContext);
   //Get completed tasks in the given list id
-  const tasksToBeDisplayed = getTasksByListIdAndCompletion(listId, true);
+  const tasks = getTasksByListIdAndCompletion(listId, true);
+  // Sort Tasks
+  const sortedTasks = sortTasksBy(tasks, sortBy);
 
   return (
     <View style={styles.container}>
@@ -23,7 +28,7 @@ const CompletedTasks = ({ listId = "2" }: CompletedTasksProps) => {
           <>
             <ListItem.Content>
               <ListItem.Title style={{ fontSize: 15 }}>
-                Completed ({tasksToBeDisplayed.length})
+                Completed ({sortedTasks.length})
               </ListItem.Title>
             </ListItem.Content>
           </>
@@ -38,7 +43,7 @@ const CompletedTasks = ({ listId = "2" }: CompletedTasksProps) => {
           },
         ]}
       >
-        {tasksToBeDisplayed.map((task) => (
+        {sortedTasks.map((task) => (
           <TaskItem
             key={task.id}
             id={task.id}
