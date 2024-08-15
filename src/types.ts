@@ -38,9 +38,9 @@ export type Task = {
   name: string;
   listId: string;
   isCompleted: boolean;
+  priority: "no" | "low" | "medium" | "high";
   date?: string;
   description?: string;
-  priority?: string;
 };
 
 export type MiniDropdownOption = {

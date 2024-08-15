@@ -35,6 +35,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "no",
   },
   {
     id: "2",
@@ -42,6 +43,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "no",
   },
   {
     id: "3",
@@ -49,6 +51,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "high",
   },
   {
     id: "4",
@@ -56,6 +59,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "high",
   },
   {
     id: "5",
@@ -63,6 +67,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "medium",
   },
   {
     id: "6",
@@ -70,6 +75,7 @@ const DUMMY_TASKS: Task[] = [
     listId: "2",
     date: "2024-07-06",
     isCompleted: false,
+    priority: "medium",
   },
 ];
 

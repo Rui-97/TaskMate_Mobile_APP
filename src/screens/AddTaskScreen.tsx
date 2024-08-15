@@ -44,7 +44,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     name: "",
     description: "",
     listId: initalListId,
-    priority: "",
+    priority: "no",
     date: initalDate,
     isCompleted: false,
   });
