@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import OcticonIcon from "react-native-vector-icons/Octicons";
 
 import TaskStackNavigator from "./TaskStackNavigator";
 import CalendarStackNavigator from "./CalendarStackNavigator";

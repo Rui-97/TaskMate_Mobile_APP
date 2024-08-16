@@ -1,22 +1,14 @@
 import { View, StyleSheet } from "react-native";
 import { Calendar, DateData, CalendarUtils } from "react-native-calendars";
 import { useState } from "react";
-// import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import SimpleBtn from "../components/UI/SimpleBtn";
-import type { TaskStackParamList } from "../types";
+import type { RootStackParamList } from "../types";
 import { paddingNmargin } from "../../constants/styles";
 
-// type TaskCalendarScreenNavigationProp = NativeStackNavigationProp<
-//   TaskStackParamList,
-//   "TaskCalendarScreen"
-// >;
-type Props = NativeStackScreenProps<TaskStackParamList, "TaskCalendarScreen">;
+type Props = NativeStackScreenProps<RootStackParamList, "TaskCalendarScreen">;
 
-// type TaskCalendarScreenProps = {
-//   navigation: TaskCalendarScreenNavigationProp;
-// };
 const TaskCalendarScreen = ({ navigation, route }: Props) => {
   const prevScreen = route.params.prevScreen;
   const initialDate = CalendarUtils.getCalendarDateString(new Date());

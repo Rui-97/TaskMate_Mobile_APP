@@ -2,9 +2,6 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type TaskStackParamList = {
   TasksScreen: { listId?: string };
-  AddTaskScreen: { date?: string; listId?: string };
-  UpdateTaskScreen: { date?: string; taskId?: string };
-  TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
   ListsScreen: { selectedListId: string };
   ManageListScreen: { action: "add" | "update"; listId?: string };
 };
@@ -13,7 +10,6 @@ export type CalendarStackParamList = {
   CalendarDefaultScreen: undefined;
   CalendarMonthlyScreen: undefined;
   CalendarWeeklyScreen: undefined;
-  AddTaskScreen: undefined;
 };
 
 export type PomoStackParamList = {
@@ -31,6 +27,13 @@ export type BottomTabParamList = {
   CalendarStack: NavigatorScreenParams<CalendarStackParamList>;
   PomoStack: NavigatorScreenParams<PomoStackParamList>;
   AccountStack: NavigatorScreenParams<AccountStackParamList>;
+};
+
+export type RootStackParamList = {
+  BottomTab: NavigatorScreenParams<BottomTabParamList>;
+  AddTaskScreen: { date?: string; listId?: string };
+  UpdateTaskScreen: { date?: string; taskId?: string };
+  TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
 };
 
 export type Task = {

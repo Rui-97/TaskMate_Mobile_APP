@@ -3,11 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CalendarDefaultScreen from "../screens/CalendarDefaultScreen";
 import CalendarMonthlyScreen from "../screens/CalendarMonthlyScreen";
 import CalendarWeeklyScreen from "../screens/CalendarWeeklyScreen";
-import AddTaskScreen from "../screens/AddTaskScreen";
 import { CalendarStackParamList } from "../types";
 
 const CalendarStack = createNativeStackNavigator<CalendarStackParamList>();
-// const CalendarStack = createNativeStackNavigator();
 
 const CalendarStackNavigator = () => {
   return (
@@ -24,7 +22,6 @@ const CalendarStackNavigator = () => {
         name="CalendarWeeklyScreen"
         component={CalendarWeeklyScreen}
       />
-      <CalendarStack.Screen name="AddTaskScreen" component={AddTaskScreen} />
     </CalendarStack.Navigator>
   );
 };

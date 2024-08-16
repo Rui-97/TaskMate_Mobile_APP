@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import RootTabNavigator from "./src/navigation/RootTabNavigator";
+import RootStackNavigator from "./src/navigation/RootStackNavigator";
 import TasksContextProvider from "./context/TasksContext";
 import ListsContextProvider from "./context/ListsContext";
 
@@ -12,14 +12,13 @@ export default function App() {
       <TasksContextProvider>
         <ListsContextProvider>
           <NavigationContainer>
-            <RootTabNavigator />
+            <RootStackNavigator />
           </NavigationContainer>
         </ListsContextProvider>
       </TasksContextProvider>
     </GestureHandlerRootView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

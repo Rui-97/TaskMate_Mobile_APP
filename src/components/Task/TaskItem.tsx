@@ -1,6 +1,7 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { useContext, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { CompositeNavigationProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
@@ -9,7 +10,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import RightActions from "./RightActions";
 import { TasksContext } from "../../../context/TasksContext";
 import { formatDateBasedOnVal } from "../../utils/utils";
-import type { TaskStackParamList, Task } from "../../types";
+import type { TaskStackParamList, RootStackParamList, Task } from "../../types";
 import { capitalizeWord } from "../../utils/utils";
 
 type TaskItemProps = {
@@ -17,9 +18,9 @@ type TaskItemProps = {
   showDetails: boolean;
 };
 
-type TaskItemNavigationProp = NativeStackNavigationProp<
-  TaskStackParamList,
-  "TasksScreen"
+type TaskItemNavigation = CompositeNavigationProp<
+  NativeStackNavigationProp<TaskStackParamList, "TasksScreen">,
+  NativeStackNavigationProp<RootStackParamList>
 >;
 const PRIORITY_COLOR = {
   no: "#868686",
@@ -31,7 +32,7 @@ const PRIORITY_COLOR = {
 const TaskItem = ({ task, showDetails }: TaskItemProps) => {
   const { markTaskAsCompleted, markTaskAsIncompleted } =
     useContext(TasksContext);
-  const navigation = useNavigation<TaskItemNavigationProp>();
+  const navigation = useNavigation<TaskItemNavigation>();
   const isSwiping = useRef(false);
   const { id, name, date, description, isCompleted, priority } = task;
 

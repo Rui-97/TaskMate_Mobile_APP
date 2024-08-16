@@ -1,20 +1,22 @@
 import { Pressable, StyleSheet } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { CompositeNavigationProp } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
-import type { TaskStackParamList } from "../../types";
+import type { TaskStackParamList, RootStackParamList } from "../../types";
 
-type AddTaskBtnNavigationProp = NativeStackNavigationProp<
-  TaskStackParamList,
-  "TasksScreen"
+type AddTaskBtnNavigation = CompositeNavigationProp<
+  NativeStackNavigationProp<TaskStackParamList, "TasksScreen">,
+  NativeStackNavigationProp<RootStackParamList>
 >;
+
 type AddTaskBtnProps = {
   destinationListId: string;
 };
 
 const AddTaskBtn = ({ destinationListId }: AddTaskBtnProps) => {
-  const navigation = useNavigation<AddTaskBtnNavigationProp>();
+  const navigation = useNavigation<AddTaskBtnNavigation>();
 
   return (
     <Pressable

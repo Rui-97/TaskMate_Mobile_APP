@@ -14,7 +14,7 @@ import SubmitTaskBtn from "../components/Task/SubmitTaskBtn";
 import type {
   TaskValueIdentifer,
   MiniDropdownOption,
-  TaskStackParamList,
+  RootStackParamList,
   Task,
 } from "../types";
 import { TasksContext } from "../../context/TasksContext";
@@ -31,7 +31,7 @@ const priorityOptions: MiniDropdownOption[] = [
 ];
 
 type AddTaskScreenProps = {
-  route: RouteProp<TaskStackParamList, "AddTaskScreen">;
+  route: RouteProp<RootStackParamList, "AddTaskScreen">;
 };
 
 const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
