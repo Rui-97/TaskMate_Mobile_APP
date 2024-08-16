@@ -43,9 +43,11 @@ const CompletedTasks = ({ listId = "2", sortBy }: CompletedTasksProps) => {
           },
         ]}
       >
-        {sortedTasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
+        <View style={styles.tasksContainer}>
+          {sortedTasks.map((task) => (
+            <TaskItem key={task.id} task={task} showDetails={false} />
+          ))}
+        </View>
       </ListItem.Accordion>
     </View>
   );
@@ -59,5 +61,10 @@ const styles = StyleSheet.create({
   accordionHeader: {
     borderRadius: 10,
     padding: paddingNmargin.small,
+  },
+  tasksContainer: {
+    backgroundColor: "#ffffff",
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
 });

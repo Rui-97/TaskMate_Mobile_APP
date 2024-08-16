@@ -128,7 +128,6 @@ export default TaskItem;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
     paddingHorizontal: 10,
   },
   taskRow: {

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Calendar, DateData } from "react-native-calendars";
+import { Calendar, DateData, CalendarUtils } from "react-native-calendars";
 import { useState } from "react";
 // import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -19,7 +19,8 @@ type Props = NativeStackScreenProps<TaskStackParamList, "TaskCalendarScreen">;
 // };
 const TaskCalendarScreen = ({ navigation, route }: Props) => {
   const prevScreen = route.params.prevScreen;
-  const [selectedDate, setSelectedDate] = useState("");
+  const initialDate = CalendarUtils.getCalendarDateString(new Date());
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const markedDate = {
     [selectedDate]: {
       selected: true,

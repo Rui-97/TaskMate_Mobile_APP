@@ -14,6 +14,7 @@ type TasksContextType = {
     listId: string,
     isCompleted: boolean
   ) => Task[];
+  getTasksByDateAndCompletion: (date: string, isCompleted: boolean) => Task[];
   deleteTasksByListId: (listId: string) => void;
   sortTasksBy: (givenTasks: Task[], sortBy: SortOptions) => Task[];
 };
@@ -26,6 +27,7 @@ export const TasksContext = createContext<TasksContextType>({
   markTaskAsCompleted: () => {},
   markTaskAsIncompleted: () => {},
   getTasksByListIdAndCompletion: () => [],
+  getTasksByDateAndCompletion: () => [],
   deleteTasksByListId: () => {},
   sortTasksBy: () => [],
 });
@@ -137,6 +139,15 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
       (tasks) => tasks.listId === listId && tasks.isCompleted === isCompleted
     );
   };
+  const getTasksByDateAndCompletion = (
+    date: string,
+    isCompleted: boolean
+  ): Task[] => {
+    return tasks.filter(
+      (tasks) => tasks.date === date && tasks.isCompleted === isCompleted
+    );
+  };
+
   const deleteTasksByListId = (listId: string) => {
     setTasks((prevTasks) =>
       prevTasks.filter((tasks) => tasks.listId !== listId)
@@ -178,6 +189,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         markTaskAsCompleted,
         markTaskAsIncompleted,
         getTasksByListIdAndCompletion,
+        getTasksByDateAndCompletion,
         deleteTasksByListId,
         sortTasksBy,
       }}

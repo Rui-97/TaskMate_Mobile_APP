@@ -10,7 +10,7 @@ export type TaskStackParamList = {
 };
 
 export type CalendarStackParamList = {
-  CalendarScreen: undefined;
+  CalendarDefaultScreen: undefined;
   CalendarMonthlyScreen: undefined;
   CalendarWeeklyScreen: undefined;
   AddTaskScreen: undefined;
