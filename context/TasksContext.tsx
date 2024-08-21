@@ -17,6 +17,7 @@ type TasksContextType = {
   getTasksByDateAndCompletion: (date: string, isCompleted: boolean) => Task[];
   deleteTasksByListId: (listId: string) => void;
   sortTasksBy: (givenTasks: Task[], sortBy: SortOptions) => Task[];
+  getDatesAssignedWithTasks: () => (string | undefined)[];
 };
 
 export const TasksContext = createContext<TasksContextType>({
@@ -30,6 +31,7 @@ export const TasksContext = createContext<TasksContextType>({
   getTasksByDateAndCompletion: () => [],
   deleteTasksByListId: () => {},
   sortTasksBy: () => [],
+  getDatesAssignedWithTasks: () => [],
 });
 
 const DUMMY_TASKS: Task[] = [
@@ -178,7 +180,11 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     }
     return givenTasks;
   };
-
+  const getDatesAssignedWithTasks = () => {
+    const dates = tasks.map((task) => task.date);
+    const datesSet = new Set(dates);
+    return Array.from(datesSet);
+  };
   return (
     <TasksContext.Provider
       value={{
@@ -192,6 +198,7 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
         getTasksByDateAndCompletion,
         deleteTasksByListId,
         sortTasksBy,
+        getDatesAssignedWithTasks,
       }}
     >
       {children}

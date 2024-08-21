@@ -12,16 +12,20 @@ type AddTaskBtnNavigation = CompositeNavigationProp<
 >;
 
 type AddTaskBtnProps = {
-  destinationListId: string;
+  destinationListId?: string;
+  date?: string;
 };
 
-const AddTaskBtn = ({ destinationListId }: AddTaskBtnProps) => {
+const AddTaskBtn = ({ destinationListId, date }: AddTaskBtnProps) => {
   const navigation = useNavigation<AddTaskBtnNavigation>();
 
   return (
     <Pressable
       onPress={() =>
-        navigation.navigate("AddTaskScreen", { listId: destinationListId })
+        navigation.navigate("AddTaskScreen", {
+          listId: destinationListId,
+          date: date,
+        })
       }
       style={styles.btn}
     >

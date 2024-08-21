@@ -24,8 +24,7 @@ export const formatDate = (date: Date) => {
   return date.toISOString().split("T")[0];
 };
 
-// format Date based on the date
-export const formatDateBasedOnVal = (givenDate: string): string => {
+export const formatDateToMonthDay = (date: string) => {
   const monthNamesShort = [
     "Jan",
     "Feb",
@@ -40,7 +39,13 @@ export const formatDateBasedOnVal = (givenDate: string): string => {
     "Nov",
     "Dec",
   ];
+  const dateArr = date.split("-");
+  const monthIndex = +dateArr[1] - 1;
+  return `${monthNamesShort[monthIndex]} ${dateArr[2]}`; //return "MM DD"
+};
 
+// format Date based on the date
+export const formatDateBasedOnVal = (givenDate: string): string => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -54,8 +59,7 @@ export const formatDateBasedOnVal = (givenDate: string): string => {
   } else {
     //the same year
     if (givenDateArr[0] === todayArr[0]) {
-      const monthIndex = +givenDateArr[1] - 1;
-      return `${monthNamesShort[monthIndex]} ${givenDateArr[2]}`; //return "MM DD"
+      return formatDateToMonthDay(givenDate); //return "MM DD"
     } else {
       //different year
       return givenDate; //return "YYYY-MM-DD"

@@ -6,23 +6,35 @@ import { useContext } from "react";
 import { TasksContext } from "../../context/TasksContext";
 import TaskItem from "../components/Task/TaskItem";
 import { paddingNmargin } from "../../constants/styles";
+import AddTaskBtn from "../components/Task/AddTaskBtn";
+import { formatDateToMonthDay } from "../utils/utils";
+import NoTasks from "../components/Task/NoTasks";
 
 const CalendarDefaultScreen = () => {
   const initialDate = CalendarUtils.getCalendarDateString(new Date());
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  const { getTasksByDateAndCompletion } = useContext(TasksContext);
+  const { getTasksByDateAndCompletion, getDatesAssignedWithTasks } =
+    useContext(TasksContext);
   const tasks = getTasksByDateAndCompletion(selectedDate, false);
+  const assignedDates = getDatesAssignedWithTasks();
+  const assignedDatesSettings = assignedDates.reduce((acc, key) => {
+    acc[key] = {
+      marked: true,
+      dotColor: "#687dcc",
+    };
+    return acc;
+  }, {});
 
-  const markedDate = {
+  const markedDates = {
+    ...assignedDatesSettings,
     [selectedDate]: {
       selected: true,
-      marked: true,
       selectedColor: "#687dcc",
     },
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.screenContainer}>
       <Calendar
         theme={{
           calendarBackground: "#f1f1f1",
@@ -32,17 +44,27 @@ const CalendarDefaultScreen = () => {
         onDayPress={(dateData: DateData) => {
           setSelectedDate(dateData.dateString);
         }}
-        markedDates={markedDate}
+        markedDates={markedDates}
+        enableSwipeMonths
       />
-      <View style={styles.tasksContainer}>
-        <Text style={styles.dateTitle}>{selectedDate}</Text>
-        <FlatList
-          data={tasks}
-          renderItem={({ item }) => (
-            <TaskItem task={item} showDetails={false} />
-          )}
-        />
-      </View>
+
+      {tasks.length === 0 ? (
+        <NoTasks />
+      ) : (
+        <View style={styles.tasksContainer}>
+          <Text style={styles.dateTitle}>
+            {formatDateToMonthDay(selectedDate)}
+          </Text>
+
+          <FlatList
+            data={tasks}
+            renderItem={({ item }) => (
+              <TaskItem task={item} showDetails={false} />
+            )}
+          />
+        </View>
+      )}
+      <AddTaskBtn date={selectedDate} />
     </SafeAreaView>
   );
 };
@@ -51,10 +73,11 @@ export default CalendarDefaultScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {
+    flex: 1,
     paddingHorizontal: paddingNmargin.standard,
   },
   dateTitle: {
-    paddingHorizontal: paddingNmargin.small,
+    paddingHorizontal: 12,
     paddingTop: paddingNmargin.standard,
     paddingBottom: paddingNmargin.small,
   },
