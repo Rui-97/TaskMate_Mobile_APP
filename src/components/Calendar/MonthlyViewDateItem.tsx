@@ -4,7 +4,6 @@ import { DateData } from "react-native-calendars";
 import { Dimensions } from "react-native";
 
 import { TasksContext } from "../../../context/TasksContext";
-import { paddingNmargin } from "../../../constants/styles";
 
 const screenHeight = Dimensions.get("window").height;
 

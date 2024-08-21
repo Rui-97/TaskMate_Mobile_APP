@@ -1,16 +1,7 @@
-import {
-  View,
-  SafeAreaView,
-  Text,
-  FlatList,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { View, SafeAreaView, Text, FlatList, StyleSheet } from "react-native";
 import { useState } from "react";
 import { Calendar, CalendarUtils, DateData } from "react-native-calendars";
 import { useContext } from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { TasksContext } from "../../context/TasksContext";
 import TaskItem from "../components/Task/TaskItem";
@@ -18,17 +9,12 @@ import { paddingNmargin } from "../../constants/styles";
 import AddTaskBtn from "../components/Task/AddTaskBtn";
 import { formatDateToMonthDay } from "../utils/utils";
 import NoTasks from "../components/Task/NoTasks";
-import type { CalendarStackParamList } from "../types";
+import SelectViewIconButton from "../components/Calendar/SelectViewIconButton";
+import SelectViewModal from "../components/Calendar/SelectViewModal";
 
-type Props = {
-  navigation: NativeStackNavigationProp<
-    CalendarStackParamList,
-    "CalendarDefaultScreen"
-  >;
-};
-
-const CalendarDefaultScreen = ({ navigation }: Props) => {
+const CalendarDefaultScreen = () => {
   const initialDate = CalendarUtils.getCalendarDateString(new Date());
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const { getTasksByDateAndCompletion, getDatesAssignedWithTasks } =
     useContext(TasksContext);
@@ -52,12 +38,7 @@ const CalendarDefaultScreen = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <Pressable
-        style={styles.viewIcon}
-        onPress={() => navigation.navigate("CalendarMonthlyScreen")}
-      >
-        <Icon name="view-module-outline" size={25} />
-      </Pressable>
+      <SelectViewIconButton onPress={setIsModalVisible} />
       <Calendar
         theme={{
           calendarBackground: "#f1f1f1",
@@ -88,6 +69,10 @@ const CalendarDefaultScreen = ({ navigation }: Props) => {
         </View>
       )}
       <AddTaskBtn date={selectedDate} />
+      <SelectViewModal
+        isVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
     </SafeAreaView>
   );
 };

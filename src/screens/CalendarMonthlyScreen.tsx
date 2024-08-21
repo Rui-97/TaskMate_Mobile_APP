@@ -22,8 +22,6 @@ const CalendarMonthlyScreen = () => {
           />
         )}
         calendarHeight={(screenHeight / 7) * 6}
-        // style={{ borderWidth: 2 }}
-        // calendarStyle={{ borderBottomWidth: 2 }}
       />
     </SafeAreaView>
   );
