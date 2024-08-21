@@ -4,9 +4,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  Image,
   FlatList,
-  Button,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { RouteProp } from "@react-navigation/native";

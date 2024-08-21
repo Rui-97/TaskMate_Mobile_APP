@@ -181,7 +181,8 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
     return givenTasks;
   };
   const getDatesAssignedWithTasks = () => {
-    const dates = tasks.map((task) => task.date);
+    const incompletedTasks = tasks.filter((task) => task.isCompleted === false);
+    const dates = incompletedTasks.map((task) => task.date);
     const datesSet = new Set(dates);
     return Array.from(datesSet);
   };
