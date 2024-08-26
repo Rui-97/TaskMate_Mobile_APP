@@ -9,7 +9,7 @@ const PomoStack = createNativeStackNavigator<PomoStackParamList>();
 
 const PomoStackNavigator = () => {
   return (
-    <PomoStack.Navigator>
+    <PomoStack.Navigator screenOptions={{ headerShown: false }}>
       <PomoStack.Screen name="PomoScreen" component={PomoScreen} />
       <PomoStack.Screen
         name="PomoCompleteScreen"
