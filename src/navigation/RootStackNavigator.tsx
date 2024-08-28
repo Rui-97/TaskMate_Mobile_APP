@@ -5,18 +5,17 @@ import AddTaskScreen from "../screens/AddTaskScreen";
 import UpdateTaskScreen from "../screens/UpdateTaskScreen";
 import RootTabNavigator from "./RootTabNavigator";
 import TaskCalendarScreen from "../screens/TaskCalendarScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const RootStackNavigator = () => {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen
-        name="BottomTab"
-        component={RootTabNavigator}
-        options={{ headerShown: false }}
-      />
-
+      <RootStack.Screen name="LoginScreen" component={LoginScreen} />
+      <RootStack.Screen name="SignupScreen" component={SignupScreen} />
+      <RootStack.Screen name="BottomTab" component={RootTabNavigator} />
       <RootStack.Screen
         name="AddTaskScreen"
         component={AddTaskScreen}
