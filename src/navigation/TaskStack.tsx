@@ -1,17 +1,17 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { TaskStackParamList } from "../types";
+import type { TaskStackParamList } from "../types";
 import TasksScreen from "../screens/TasksScreen";
 import ListsScreen from "../screens/ListsScreen";
 import ManageListScreen from "../screens/ManageListScreen";
 
-const TaskStack = createNativeStackNavigator<TaskStackParamList>();
+const Stack = createNativeStackNavigator<TaskStackParamList>();
 
-const TaskStackNavigator = () => {
+const TaskStack = () => {
   return (
-    <TaskStack.Navigator screenOptions={{ headerShown: false }}>
-      <TaskStack.Screen name="TasksScreen" component={TasksScreen} />
-      <TaskStack.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="TasksScreen" component={TasksScreen} />
+      <Stack.Screen
         name="ListsScreen"
         component={ListsScreen}
         options={{
@@ -19,7 +19,7 @@ const TaskStackNavigator = () => {
           contentStyle: { top: "35%", borderRadius: 5 },
         }}
       />
-      <TaskStack.Screen
+      <Stack.Screen
         name="ManageListScreen"
         component={ManageListScreen}
         options={{
@@ -27,8 +27,8 @@ const TaskStackNavigator = () => {
           contentStyle: { top: "30%", borderRadius: 5 },
         }}
       />
-    </TaskStack.Navigator>
+    </Stack.Navigator>
   );
 };
 
-export default TaskStackNavigator;
+export default TaskStack;

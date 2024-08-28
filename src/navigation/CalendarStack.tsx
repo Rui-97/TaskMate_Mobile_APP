@@ -3,26 +3,26 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CalendarDefaultScreen from "../screens/CalendarDefaultScreen";
 import CalendarMonthlyScreen from "../screens/CalendarMonthlyScreen";
 import CalendarWeeklyScreen from "../screens/CalendarWeeklyScreen";
-import { CalendarStackParamList } from "../types";
+import type { CalendarStackParamList } from "../types";
 
-const CalendarStack = createNativeStackNavigator<CalendarStackParamList>();
+const Stack = createNativeStackNavigator<CalendarStackParamList>();
 
-const CalendarStackNavigator = () => {
+const CalendarStack = () => {
   return (
-    <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
-      <CalendarStack.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
         name="CalendarDefaultScreen"
         component={CalendarDefaultScreen}
       />
-      <CalendarStack.Screen
+      <Stack.Screen
         name="CalendarMonthlyScreen"
         component={CalendarMonthlyScreen}
       />
-      <CalendarStack.Screen
+      <Stack.Screen
         name="CalendarWeeklyScreen"
         component={CalendarWeeklyScreen}
       />
-    </CalendarStack.Navigator>
+    </Stack.Navigator>
   );
 };
-export default CalendarStackNavigator;
+export default CalendarStack;

@@ -18,10 +18,10 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { paddingNmargin } from "../../constants/styles";
 import ContinuwWithThirdPartyButton from "../components/Auth/ContinueWithThirdPartyButton";
 import { FIREBASE_AUTH } from "../../firebaseConfig";
-import type { RootStackParamList } from "../types";
+import type { GuestStackParamList } from "../types";
 
 type Prop = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "LoginScreen">;
+  navigation: NativeStackNavigationProp<GuestStackParamList, "LoginScreen">;
 };
 const SignupScreen = ({ navigation }: Prop) => {
   const [email, setEmial] = useState("");

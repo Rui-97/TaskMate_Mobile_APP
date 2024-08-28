@@ -1,22 +1,18 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../types";
+import type { RootStackParamList } from "../types";
 import AddTaskScreen from "../screens/AddTaskScreen";
 import UpdateTaskScreen from "../screens/UpdateTaskScreen";
-import RootTabNavigator from "./RootTabNavigator";
+import RootTab from "./RootTab";
 import TaskCalendarScreen from "../screens/TaskCalendarScreen";
-import LoginScreen from "../screens/LoginScreen";
-import SignupScreen from "../screens/SignupScreen";
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const RootStackNavigator = () => {
+const RootStack = () => {
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name="LoginScreen" component={LoginScreen} />
-      <RootStack.Screen name="SignupScreen" component={SignupScreen} />
-      <RootStack.Screen name="BottomTab" component={RootTabNavigator} />
-      <RootStack.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="BottomTab" component={RootTab} />
+      <Stack.Screen
         name="AddTaskScreen"
         component={AddTaskScreen}
         options={{
@@ -24,7 +20,7 @@ const RootStackNavigator = () => {
           contentStyle: { top: "35%", borderRadius: 5 },
         }}
       />
-      <RootStack.Screen
+      <Stack.Screen
         name="UpdateTaskScreen"
         component={UpdateTaskScreen}
         options={{
@@ -32,7 +28,7 @@ const RootStackNavigator = () => {
           contentStyle: { top: "35%", borderRadius: 5 },
         }}
       />
-      <RootStack.Screen
+      <Stack.Screen
         name="TaskCalendarScreen"
         component={TaskCalendarScreen}
         options={{
@@ -40,8 +36,8 @@ const RootStackNavigator = () => {
           contentStyle: { top: "30%", borderRadius: 5 },
         }}
       />
-    </RootStack.Navigator>
+    </Stack.Navigator>
   );
 };
 
-export default RootStackNavigator;
+export default RootStack;

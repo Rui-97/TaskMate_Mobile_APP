@@ -6,10 +6,9 @@ import {
   Pressable,
   Text,
   Image,
-  Button,
 } from "react-native";
 import {
-  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
@@ -19,10 +18,10 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { paddingNmargin } from "../../constants/styles";
 import ContinueWithThirdPartyButton from "../components/Auth/ContinueWithThirdPartyButton";
 import { FIREBASE_AUTH } from "../../firebaseConfig";
-import type { RootStackParamList } from "../types";
+import type { GuestStackParamList } from "../types";
 
 type Prop = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "LoginScreen">;
+  navigation: NativeStackNavigationProp<GuestStackParamList, "LoginScreen">;
 };
 
 const LoginScreen = ({ navigation }: Prop) => {
@@ -32,9 +31,9 @@ const LoginScreen = ({ navigation }: Prop) => {
   const auth = FIREBASE_AUTH;
   const google = new GoogleAuthProvider();
 
-  const signupWithEmail = async () => {
+  const loginWithEmail = async () => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const res = await signInWithEmailAndPassword(auth, email, password);
       console.log(res);
     } catch (error: any) {
       console.log(error.message);
@@ -72,7 +71,7 @@ const LoginScreen = ({ navigation }: Prop) => {
           autoCapitalize="none"
           secureTextEntry
         />
-        <Pressable style={styles.button} onPress={signupWithEmail}>
+        <Pressable style={styles.button} onPress={loginWithEmail}>
           <Text style={styles.buttonText}>Log In</Text>
         </Pressable>
       </View>

@@ -34,6 +34,9 @@ export type RootStackParamList = {
   AddTaskScreen: { date?: string; listId?: string };
   UpdateTaskScreen: { date?: string; taskId?: string };
   TaskCalendarScreen: { prevScreen: "AddTaskScreen" | "UpdateTaskScreen" };
+};
+
+export type GuestStackParamList = {
   LoginScreen: undefined;
   SignupScreen: undefined;
 };
