@@ -6,6 +6,7 @@ import {
   Pressable,
   Text,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import {
   createUserWithEmailAndPassword,
@@ -27,14 +28,31 @@ const SignupScreen = ({ navigation }: Prop) => {
   const [email, setEmial] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const auth = FIREBASE_AUTH;
   const google = new GoogleAuthProvider();
 
-  const signupWithEmail = async () => {
+  const isPasswordValid = () => {
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long");
+      return false;
+    } else if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return false;
+    }
+    return true;
+  };
+
+  const signupButtonPressHandler = async () => {
+    if (!isPasswordValid()) return;
+
+    setIsLoading(true);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
+      setIsLoading(false);
     } catch (error: any) {
       console.log(error.message);
     }
@@ -55,32 +73,51 @@ const SignupScreen = ({ navigation }: Prop) => {
         style={styles.image}
       />
 
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        value={email}
-        onChangeText={(text) => setEmial(text)}
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Password"
-        style={styles.input}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        autoCapitalize="none"
-        secureTextEntry
-      />
-      <TextInput
-        placeholder="Confirm Password"
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={(text) => setConfirmPassword(text)}
-        autoCapitalize="none"
-        secureTextEntry
-      />
-      <Pressable style={styles.button} onPress={signupWithEmail}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <View style={styles.block}>
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => {
+              setEmial(text);
+              setErrorMessage("");
+            }}
+            autoCapitalize="none"
+          />
+          <TextInput
+            placeholder="Password"
+            style={styles.input}
+            value={password}
+            onChangeText={(text) => {
+              setPassword(text);
+              setErrorMessage("");
+            }}
+            autoCapitalize="none"
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="Confirm Password"
+            style={styles.input}
+            value={confirmPassword}
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+              setErrorMessage("");
+            }}
+            autoCapitalize="none"
+            secureTextEntry
+          />
+          {errorMessage && (
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          )}
+          <Pressable style={styles.button} onPress={signupButtonPressHandler}>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </Pressable>
+        </View>
+      )}
+
       <Text style={styles.orText}>OR</Text>
       <ContinuwWithThirdPartyButton
         provider="google"
@@ -145,5 +182,15 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     gap: 5,
+  },
+  block: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    gap: 15,
+  },
+  errorMessage: {
+    color: "#e21f1f",
+    fontSize: 13,
   },
 });

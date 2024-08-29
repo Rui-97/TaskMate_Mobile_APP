@@ -6,6 +6,7 @@ import {
   Pressable,
   Text,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import {
   signInWithEmailAndPassword,
@@ -27,16 +28,29 @@ type Prop = {
 const LoginScreen = ({ navigation }: Prop) => {
   const [email, setEmial] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const auth = FIREBASE_AUTH;
   const google = new GoogleAuthProvider();
 
-  const loginWithEmail = async () => {
+  const loginButtonPressHandler = async () => {
+    setIsLoading(true);
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
       console.log(res);
+      setIsLoading(false);
     } catch (error: any) {
-      console.log(error.message);
+      console.log("error.code: " + error.code);
+      setIsLoading(false);
+
+      if (error.code === "auth/invalid-eamil") {
+        setErrorMessage("Invalid email. Please try again.");
+      } else if (error.code === "auth/invalid-credential") {
+        setErrorMessage("Invalid credential. Please try again.");
+      } else if (error.code === "auth/missing-password") {
+        setErrorMessage("Missing password. Please enter your password.");
+      }
     }
   };
 
@@ -55,26 +69,39 @@ const LoginScreen = ({ navigation }: Prop) => {
         style={styles.image}
       />
 
-      <View style={styles.block}>
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={email}
-          onChangeText={(text) => setEmial(text)}
-          autoCapitalize="none"
-        />
-        <TextInput
-          placeholder="Password"
-          style={styles.input}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          autoCapitalize="none"
-          secureTextEntry
-        />
-        <Pressable style={styles.button} onPress={loginWithEmail}>
-          <Text style={styles.buttonText}>Log In</Text>
-        </Pressable>
-      </View>
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <View style={styles.block}>
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => {
+              setEmial(text);
+              setErrorMessage("");
+            }}
+            autoCapitalize="none"
+          />
+          <TextInput
+            placeholder="Password"
+            style={styles.input}
+            value={password}
+            onChangeText={(text) => {
+              setPassword(text);
+              setErrorMessage("");
+            }}
+            autoCapitalize="none"
+            secureTextEntry
+          />
+          {errorMessage && (
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          )}
+          <Pressable style={styles.button} onPress={loginButtonPressHandler}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </Pressable>
+        </View>
+      )}
 
       <Text style={styles.orText}>OR</Text>
 
@@ -149,5 +176,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     gap: 5,
+  },
+  errorMessage: {
+    color: "#e21f1f",
+    fontSize: 13,
   },
 });
