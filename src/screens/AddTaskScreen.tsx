@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import { RouteProp } from "@react-navigation/native";
+import { collection, addDoc } from "firebase/firestore";
 
 import DueDateInput from "../components/Task/DueDateInput";
 import MiniDropdown from "../components/Task/MiniDropdown";
@@ -22,6 +23,7 @@ import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 import { ListsContext } from "../../context/ListsContext";
 import { capitalizeWord, formatDate } from "../utils/utils";
+import { db, auth } from "../../firebaseConfig";
 
 const priorityOptions: MiniDropdownOption[] = [
   { label: "High Priority", value: "high" },
@@ -67,13 +69,30 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     setTask((prevTask) => ({ ...prevTask, [valueIdentifer]: enteredValue }));
   };
 
-  const submitTaskHandler = () => {
+  const submitTaskHandler = async () => {
     const parsedTask = parseTask(task.name);
     const parsedDate = parsedTask.date;
     if (parsedDate) {
       task.date = parsedDate;
     }
-    task.id = Math.random().toString();
+
+    // Add task into firestore db
+    const uid = auth.currentUser!.uid;
+    try {
+      const userTasksRef = collection(db, "users", uid, "tasks");
+      const taskRef = await addDoc(userTasksRef, {
+        name: task.name,
+        description: task.description,
+        listId: task.listId,
+        priority: task.priority,
+        date: task.date,
+        isCompleted: task.isCompleted,
+      });
+      task.id = taskRef.id;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+
     addTask(task);
   };
 

@@ -15,11 +15,13 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { doc, setDoc, collection, addDoc } from "firebase/firestore";
 
 import { paddingNmargin } from "../../constants/styles";
 import ContinuwWithThirdPartyButton from "../components/Auth/ContinueWithThirdPartyButton";
-import { FIREBASE_AUTH } from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import type { GuestStackParamList } from "../types";
+import { db } from "../../firebaseConfig";
 
 type Prop = {
   navigation: NativeStackNavigationProp<GuestStackParamList, "LoginScreen">;
@@ -31,7 +33,6 @@ const SignupScreen = ({ navigation }: Prop) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const auth = FIREBASE_AUTH;
   const google = new GoogleAuthProvider();
 
   const isPasswordValid = () => {
@@ -51,7 +52,22 @@ const SignupScreen = ({ navigation }: Prop) => {
     setIsLoading(true);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
+      const user = res.user;
+      const uid = user.uid;
+
+      // Create a document in the 'users' collection with the user's UID as the document ID
+      await setDoc(doc(db, "users", uid), { email: user.email });
+      // Add default lists to the user's 'lists' subcollection
+      const userListsRef = collection(db, "users", uid, "lists");
+      await addDoc(userListsRef, {
+        name: "inbox",
+        isDefault: true,
+      });
+      await addDoc(userListsRef, {
+        name: "today",
+        isDefault: true,
+      });
+
       setIsLoading(false);
     } catch (error: any) {
       console.log(error.message);

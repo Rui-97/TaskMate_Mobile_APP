@@ -1,7 +1,9 @@
 import * as React from "react";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
 
 import type { Task, SortOptions } from "../src/types";
+import { db, auth } from "../firebaseConfig";
 
 type TasksContextType = {
   tasks: Task[];
@@ -91,7 +93,26 @@ type TasksContextProviderProps = {
 };
 
 const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
-  const [tasks, setTasks] = useState<Task[]>(DUMMY_TASKS);
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  //Fetch tasks data from firestore
+  useEffect(() => {
+    const fetchData = async () => {
+      const uid = auth.currentUser!.uid;
+      const querySnapshot = await getDocs(
+        collection(db, "users", uid, "tasks")
+      );
+      const tasksData: any = [];
+      querySnapshot.forEach((doc) => {
+        const taskData = doc.data();
+        taskData.id = doc.id;
+        tasksData.push(taskData);
+      });
+
+      setTasks(tasksData);
+    };
+    fetchData();
+  }, []);
 
   //Tasks related methods ====================================
   const addTask = (newTask: Task) => {
@@ -103,7 +124,6 @@ const TasksContextProvider = ({ children }: TasksContextProviderProps) => {
   };
   const updateTask = (id: string, updatedTask: Task) => {
     setTasks((prevTasks) => {
-      // Find the index of the task that is about to be updated in the tasks.
       const taskTOBeUpdatedIndex = prevTasks.findIndex(
         (task) => task.id === id
       );

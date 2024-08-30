@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { Animated, Pressable, View, StyleSheet } from "react-native";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { doc, deleteDoc } from "firebase/firestore";
 
 import { paddingNmargin } from "../../../constants/styles";
 import { TasksContext } from "../../../context/TasksContext";
+import { auth, db } from "../../../firebaseConfig";
 
 type RightActionsProps = {
   progress: Animated.AnimatedInterpolation<number>;
@@ -13,6 +15,13 @@ type RightActionsProps = {
 
 const RightActions = ({ progress, taskID }: RightActionsProps) => {
   const { deleteTask } = useContext(TasksContext);
+  const deleteTaskInDbAndLocal = async () => {
+    const uid = auth.currentUser!.uid;
+    const taskRef = doc(db, "users", uid, "tasks", taskID);
+    await deleteDoc(taskRef);
+
+    deleteTask(taskID);
+  };
 
   const renderRightAction = (
     x: number,
@@ -44,8 +53,12 @@ const RightActions = ({ progress, taskID }: RightActionsProps) => {
 
   return (
     <View style={styles.container}>
-      {renderRightAction(192, "trash-alt", "fontAwsome", "#cb1e1e", () =>
-        deleteTask(taskID)
+      {renderRightAction(
+        192,
+        "trash-alt",
+        "fontAwsome",
+        "#cb1e1e",
+        deleteTaskInDbAndLocal
       )}
       {renderRightAction(128, "calendar-alt", "fontAwsome", "#ea6a14", () =>
         console.log("Calendar action")

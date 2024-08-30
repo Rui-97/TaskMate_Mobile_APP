@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import { RouteProp } from "@react-navigation/native";
+import { doc, updateDoc } from "firebase/firestore";
 
 import DueDateInput from "../components/Task/DueDateInput";
 import MiniDropdown from "../components/Task/MiniDropdown";
@@ -22,6 +23,7 @@ import { ListsContext } from "../../context/ListsContext";
 import { parseTask } from "../utils/utils";
 import { paddingNmargin } from "../../constants/styles";
 import { capitalizeWord } from "../utils/utils";
+import { auth, db } from "../../firebaseConfig";
 
 const priorityOptions: MiniDropdownOption[] = [
   { label: "High Priority", value: "high" },
@@ -58,11 +60,20 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
     setTask((prevTask) => ({ ...prevTask, [valueIdentifer]: enteredValue }));
   };
 
-  const submitTaskHandler = () => {
+  const submitTaskHandler = async () => {
     const parsedTask = parseTask(task.name);
     const parsedDate = parsedTask.date;
     if (parsedDate) {
       task.date = parsedDate;
+    }
+
+    // Update task in firestore db
+    const uid = auth.currentUser!.uid;
+    try {
+      const userTasksRef = doc(db, "users", uid, "tasks", taskId!);
+      await updateDoc(userTasksRef, task);
+    } catch (e) {
+      console.error("Error adding document: ", e);
     }
     updateTask(taskId!, task);
   };

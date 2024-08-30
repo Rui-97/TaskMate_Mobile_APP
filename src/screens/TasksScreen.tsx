@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { RouteProp } from "@react-navigation/native";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Modal from "react-native-modal";
 
 import PressableListTitle from "../components/Task/PressableListTitle";
@@ -18,6 +18,7 @@ import CompletedTasks from "../components/Task/CompletedTasks";
 import { paddingNmargin } from "../../constants/styles";
 import { TaskStackParamList, SortOptions } from "../types";
 import { TasksContext } from "../../context/TasksContext";
+import { ListsContext } from "../../context/ListsContext";
 import NoTasks from "../components/Task/NoTasks";
 import MoreOptionItem from "../components/Task/MoreOptionItem";
 import SortOption from "../components/Task/SortOption";
@@ -33,7 +34,9 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
     useState<SortOptions>("default");
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const { getTasksByListIdAndCompletion } = useContext(TasksContext);
-  const listId = route.params?.listId;
+  const { inboxListId } = useContext(ListsContext);
+  const listId = route.params ? route.params.listId : inboxListId;
+
   const TasksNumInList =
     listId && getTasksByListIdAndCompletion(listId!, false).length;
 

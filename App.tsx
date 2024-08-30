@@ -7,27 +7,31 @@ import RootStack from "./src/navigation/RootStack";
 import GuestStack from "./src/navigation/GuestStack";
 import TasksContextProvider from "./context/TasksContext";
 import ListsContextProvider from "./context/ListsContext";
-import { FIREBASE_AUTH } from "./firebaseConfig";
+import { auth } from "./firebaseConfig";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     //Set observer to listen for auth status changes
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+    onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
   }, []);
 
   return (
-    <GestureHandlerRootView>
-      <TasksContextProvider>
-        <ListsContextProvider>
-          <NavigationContainer>
-            {user ? <RootStack /> : <GuestStack />}
-          </NavigationContainer>
-        </ListsContextProvider>
-      </TasksContextProvider>
-    </GestureHandlerRootView>
+    <NavigationContainer>
+      {user ? (
+        <GestureHandlerRootView>
+          <TasksContextProvider>
+            <ListsContextProvider>
+              <RootStack />
+            </ListsContextProvider>
+          </TasksContextProvider>
+        </GestureHandlerRootView>
+      ) : (
+        <GuestStack />
+      )}
+    </NavigationContainer>
   );
 }

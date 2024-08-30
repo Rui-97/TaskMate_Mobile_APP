@@ -1,12 +1,14 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { useState, useContext } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 
 import SimpleBtn from "../components/UI/SimpleBtn";
 import { paddingNmargin } from "../../constants/styles";
 import { ListsContext } from "../../context/ListsContext";
 import { TaskStackParamList } from "../types";
 import { capitalizeWord } from "../utils/utils";
+import { db, auth } from "../../firebaseConfig";
 
 type Props = NativeStackScreenProps<TaskStackParamList, "ManageListScreen">;
 
@@ -18,22 +20,48 @@ const ManageListScreen = ({ navigation, route }: Props) => {
     action === "update" ? lists.find((list) => list.id === listId)!.name : "";
   const [listName, setListName] = useState(initalListName);
 
-  const doneBtnHandler = () => {
+  const doneBtnHandler = async () => {
     if (!listName.trim()) return;
 
+    const trimedListName = listName.trim().toLowerCase();
+    const uid = auth.currentUser!.uid;
+    // Add List=====================
     if (action === "add") {
-      const id = listName.trim();
-      addList({
-        id: id,
-        name: listName.trim().toLowerCase(),
-        isDefault: false,
-      });
+      try {
+        // Add list into firestore db
+        const userListsRef = collection(db, "users", uid, "lists");
+        const listRef = await addDoc(userListsRef, {
+          name: trimedListName,
+          isDefault: false,
+        });
+        const newListId = listRef.id;
+
+        addList({
+          name: trimedListName,
+          isDefault: false,
+          id: newListId,
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
+
+    // Update list===================
     if (action === "update") {
-      updateList(listId!, { name: listName });
+      // Update list in firestore db
+      try {
+        const userListRef = doc(db, "users", uid, "lists", listId!);
+        await updateDoc(userListRef, { name: trimedListName });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
+      updateList(listId!, { name: trimedListName });
     }
+
     navigation.goBack();
   };
+
   return (
     <View style={styles.screen}>
       <View style={styles.headerRow}>

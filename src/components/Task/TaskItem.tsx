@@ -6,12 +6,14 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Swipeable } from "react-native-gesture-handler";
+import { doc, updateDoc } from "firebase/firestore";
 
 import RightActions from "./RightActions";
 import { TasksContext } from "../../../context/TasksContext";
 import { formatDateBasedOnVal } from "../../utils/utils";
 import type { TaskStackParamList, RootStackParamList, Task } from "../../types";
 import { capitalizeWord } from "../../utils/utils";
+import { auth, db } from "../../../firebaseConfig";
 
 type TaskItemProps = {
   task: Task;
@@ -35,6 +37,8 @@ const TaskItem = ({ task, showDetails }: TaskItemProps) => {
   const navigation = useNavigation<TaskItemNavigation>();
   const isSwiping = useRef(false);
   const { id, name, date, description, isCompleted, priority } = task;
+  const uid = auth.currentUser!.uid;
+  const taskRef = doc(db, "users", uid, "tasks", id);
 
   const pressHandler = () => {
     if (!isCompleted && !isSwiping.current) {
@@ -42,23 +46,23 @@ const TaskItem = ({ task, showDetails }: TaskItemProps) => {
     }
   };
 
-  const renderRightActionsHandler = (progress) => {
+  const renderRightActionsHandler = (progress: any) => {
     if (!isCompleted) {
       return <RightActions progress={progress} taskID={id} />;
     }
   };
-  const incompleteTaskCheckboxSelectHandler = (isChecked: boolean) => {
+  const incompleteTaskCheckboxSelectHandler = async (isChecked: boolean) => {
     if (isChecked) {
-      setTimeout(() => {
-        markTaskAsCompleted(id);
-      }, 300);
+      //Update task in firestore db
+      await updateDoc(taskRef, { isCompleted: true });
+      markTaskAsCompleted(id);
     }
   };
-  const completedTaskCheckboxSelectHandler = (isChecked: boolean) => {
+  const completedTaskCheckboxSelectHandler = async (isChecked: boolean) => {
     if (!isChecked) {
-      setTimeout(() => {
-        markTaskAsIncompleted(id);
-      }, 300);
+      //Update task in firestore db
+      await updateDoc(taskRef, { isCompleted: false });
+      markTaskAsIncompleted(id);
     }
   };
 
@@ -98,7 +102,7 @@ const TaskItem = ({ task, showDetails }: TaskItemProps) => {
                   : { color: "#000000", fontSize: 15 },
               ]}
             >
-              {name}
+              {capitalizeWord(name)}
             </Text>
             <View style={styles.dateContainer}>
               <Text

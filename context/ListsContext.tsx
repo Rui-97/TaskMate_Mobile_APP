@@ -1,14 +1,19 @@
 import * as React from "react";
 import { createContext, useState } from "react";
+import { useEffect } from "react";
+import { getDocs, collection, getDoc, doc } from "firebase/firestore";
 
 import type { List } from "../src/types";
+import { db, auth } from "../firebaseConfig";
 
 type ListsContextType = {
   lists: List[];
   addList: (newList: List) => void;
   deleteList: (id: string) => void;
-  updateList: (id: string, updateData) => void;
+  updateList: (id: string, updateData: any) => void;
   getListNameById: (id: string) => string | undefined;
+  inboxListId: string;
+  todayListId: string;
 };
 
 export const ListsContext = createContext<ListsContextType>({
@@ -17,19 +22,46 @@ export const ListsContext = createContext<ListsContextType>({
   deleteList: () => {},
   updateList: () => {},
   getListNameById: () => undefined,
+  inboxListId: "",
+  todayListId: "",
 });
 
 type ListsContextProviderProps = {
   children: React.ReactNode;
 };
 
-const DEFAULT_LISTS: List[] = [
-  { id: "1", name: "today", isDefault: true },
-  { id: "2", name: "inbox", isDefault: true },
-];
-
 const ListsContextProvider = ({ children }: ListsContextProviderProps) => {
-  const [lists, setLists] = useState(DEFAULT_LISTS);
+  const [lists, setLists] = useState<List[]>([]);
+  const [inboxListId, setInboxListId] = useState("");
+  const [todayListId, setTodayListId] = useState("");
+
+  useEffect(() => {
+    const uid = auth.currentUser!.uid;
+
+    //Fetch lists data from firebase
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(
+        collection(db, "users", uid, "lists")
+      );
+      const listsData: any = [];
+      querySnapshot.forEach((doc) => {
+        const listData = doc.data();
+        listData.id = doc.id;
+        listsData.push(listData);
+
+        //Get default lists id
+        if (listData.name === "inbox") {
+          setInboxListId(listData.id);
+        }
+        if (listData.name === "today") {
+          setTodayListId(listData.id);
+        }
+      });
+      setLists(listsData);
+    };
+
+    fetchData();
+  }, []);
 
   const addList = (newList: List) => {
     setLists((prevLists) => [...prevLists, newList]);
@@ -57,7 +89,15 @@ const ListsContextProvider = ({ children }: ListsContextProviderProps) => {
   };
   return (
     <ListsContext.Provider
-      value={{ lists, addList, deleteList, updateList, getListNameById }}
+      value={{
+        lists,
+        addList,
+        deleteList,
+        updateList,
+        getListNameById,
+        inboxListId,
+        todayListId,
+      }}
     >
       {children}
     </ListsContext.Provider>

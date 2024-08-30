@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet } from "react-native";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { TasksContext } from "../../../context/TasksContext";
 import TaskItem from "./TaskItem";
@@ -11,15 +11,17 @@ type IncompletedTasksProps = {
   sortBy: SortOptions;
   showDetails: boolean;
 };
+
 const IncompletedTasks = ({
-  listId = "2",
+  listId,
   sortBy,
   showDetails,
 }: IncompletedTasksProps) => {
   const { getTasksByListIdAndCompletion, sortTasksBy } =
     useContext(TasksContext);
+
   //Get incompleted tasks in the give list id
-  const tasks = getTasksByListIdAndCompletion(listId, false);
+  const tasks = getTasksByListIdAndCompletion(listId!, false);
   // Sort Tasks
   const sortedTasks = sortTasksBy(tasks, sortBy);
 

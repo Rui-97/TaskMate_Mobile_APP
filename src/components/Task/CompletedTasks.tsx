@@ -12,12 +12,12 @@ type CompletedTasksProps = {
   sortBy: SortOptions;
 };
 
-const CompletedTasks = ({ listId = "2", sortBy }: CompletedTasksProps) => {
+const CompletedTasks = ({ listId, sortBy }: CompletedTasksProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { getTasksByListIdAndCompletion, sortTasksBy } =
     useContext(TasksContext);
   //Get completed tasks in the given list id
-  const tasks = getTasksByListIdAndCompletion(listId, true);
+  const tasks = getTasksByListIdAndCompletion(listId!, true);
   // Sort Tasks
   const sortedTasks = sortTasksBy(tasks, sortBy);
 

@@ -1,12 +1,12 @@
 import { View, SafeAreaView, Text, Pressable } from "react-native";
 import { signOut } from "firebase/auth";
 
-import { FIREBASE_AUTH } from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 
 const AccountScreen = () => {
   const logOut = async () => {
     try {
-      const res = await signOut(FIREBASE_AUTH);
+      const res = await signOut(auth);
       console.log(res);
     } catch {}
   };

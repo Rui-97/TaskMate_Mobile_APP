@@ -18,7 +18,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { paddingNmargin } from "../../constants/styles";
 import ContinueWithThirdPartyButton from "../components/Auth/ContinueWithThirdPartyButton";
-import { FIREBASE_AUTH } from "../../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import type { GuestStackParamList } from "../types";
 
 type Prop = {
@@ -30,18 +30,14 @@ const LoginScreen = ({ navigation }: Prop) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const auth = FIREBASE_AUTH;
   const google = new GoogleAuthProvider();
 
   const loginButtonPressHandler = async () => {
     setIsLoading(true);
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
       setIsLoading(false);
     } catch (error: any) {
-      console.log("error.code: " + error.code);
       setIsLoading(false);
 
       if (error.code === "auth/invalid-eamil") {
