@@ -57,6 +57,8 @@ const ListsContextProvider = ({ children }: ListsContextProviderProps) => {
           setTodayListId(listData.id);
         }
       });
+      // console.log("lists data in list context");
+      // console.log(listsData);
       setLists(listsData);
     };
 

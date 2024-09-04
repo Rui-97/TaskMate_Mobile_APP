@@ -96,6 +96,9 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     addTask(task);
   };
 
+  console.log("lists in add task screen");
+  console.log(lists);
+
   return (
     <SafeAreaView>
       <View style={styles.screenContainer}>
