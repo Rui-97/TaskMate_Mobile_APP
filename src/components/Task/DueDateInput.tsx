@@ -3,11 +3,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import type { TaskStackParamList } from "../../types";
+import type { RootStackParamList } from "../../types";
 import { paddingNmargin } from "../../../constants/styles";
 
 type DueDateInputNavigationProp = NativeStackNavigationProp<
-  TaskStackParamList,
+  RootStackParamList,
   "AddTaskScreen"
 >;
 type DueDateInputProps = {

@@ -69,14 +69,8 @@ const ListsScreen = ({ route, navigation }: ListScreenProps) => {
           <Icon name="plus" size={20} />
         </Pressable>
       </View>
-      {/* List */}
       <View>
-        <DeleteListModal
-          modalVisible={modalVisible}
-          listId={deletingListId.current}
-          hideDeleteModal={hideDeleteModal}
-          resetSelectedListId={resetSelectedListId}
-        />
+        {/* Lists*/}
         <FlatList
           data={lists}
           renderItem={({ item, index }) => (
@@ -90,6 +84,14 @@ const ListsScreen = ({ route, navigation }: ListScreenProps) => {
             />
           )}
           style={styles.listsContainer}
+        />
+
+        {/* Modal */}
+        <DeleteListModal
+          modalVisible={modalVisible}
+          listId={deletingListId.current}
+          hideDeleteModal={hideDeleteModal}
+          resetSelectedListId={resetSelectedListId}
         />
       </View>
     </SafeAreaView>

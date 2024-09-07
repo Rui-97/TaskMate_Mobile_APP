@@ -5,16 +5,59 @@ nlp.extend(nlpDates);
 
 type ParsedTask = {
   date?: string;
+  priority?: string;
+  remainingText: string;
 };
+
 export const parseTask = (input: string): ParsedTask => {
-  let doc = nlp(input);
-  const parsedTask: ParsedTask = {};
+  const doc = nlp(input);
+  const parsedTask: ParsedTask = { remainingText: input };
 
   // Extract dates
-  let dates = doc.dates().get();
+  const dates = doc.dates().get();
   if (dates.length > 0) {
     parsedTask.date = dates[0].start.substring(0, 10);
+
+    // Remove the extracted date from the remaining text
+    const dateStr = doc.dates().out("text");
+    parsedTask.remainingText = parsedTask.remainingText
+      .replace(dateStr, "")
+      .trim();
   }
+
+  //Extract priority
+  const priority = doc
+    .match("(hp|mp|lp|high priority|medium priority|low priority)")
+    .out("text");
+
+  switch (priority) {
+    case "hp":
+    case "high priority":
+      parsedTask.priority = "high";
+      break;
+
+    case "mp":
+    case "medium priority":
+      parsedTask.priority = "medium";
+      break;
+
+    case "lp":
+    case "low priority":
+      parsedTask.priority = "low";
+      break;
+
+    default:
+      parsedTask.priority = "no";
+      break;
+  }
+
+  // Remove the extracted priority from the remaining text
+  const priorityStr = doc
+    .match("(hp|mp|lp|high priority|medium priority|low priority)")
+    .out("text");
+  parsedTask.remainingText = parsedTask.remainingText
+    .replace(priorityStr, "")
+    .trim();
 
   return parsedTask;
 };

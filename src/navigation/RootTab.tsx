@@ -4,8 +4,8 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 
 import TaskStack from "./TaskStack";
 import CalendarStack from "./CalendarStack";
-import PomoStack from "./PomoStack";
-import AccountStack from "./AccountStack";
+import PomoScreen from "../screens/PomoScreen";
+import AccountScreen from "../screens/AccountScreen";
 import type { BottomTabParamList } from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -54,8 +54,8 @@ const RootTab = () => {
         }}
       />
       <BottomTab.Screen
-        name="PomoStack"
-        component={PomoStack}
+        name="PomoScreen"
+        component={PomoScreen}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -74,8 +74,8 @@ const RootTab = () => {
         }}
       />
       <BottomTab.Screen
-        name="AccountStack"
-        component={AccountStack}
+        name="AccountScreen"
+        component={AccountScreen}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text

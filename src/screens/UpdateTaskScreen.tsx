@@ -60,13 +60,17 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
     setTask((prevTask) => ({ ...prevTask, [valueIdentifer]: enteredValue }));
   };
 
-  const submitTaskHandler = async () => {
-    const parsedTask = parseTask(task.name);
-    const parsedDate = parsedTask.date;
-    if (parsedDate) {
-      task.date = parsedDate;
-    }
+  const taskNameTextChangeHandler = (input: string) => {
+    inputChangeHandler("name", input);
 
+    const parsedTask = parseTask(input);
+    const parsedDate = parsedTask.date;
+    const parsedPriority = parsedTask.priority;
+    if (parsedDate) inputChangeHandler("date", parsedDate);
+    if (parsedPriority) inputChangeHandler("priority", parsedPriority);
+  };
+
+  const submitTaskHandler = async () => {
     // Update task in firestore db
     const uid = auth.currentUser!.uid;
     try {
@@ -85,7 +89,7 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
           placeholder="Task Name"
           placeholderTextColor="#8c8c8c"
           style={styles.taskNameInput}
-          onChangeText={(value) => inputChangeHandler("name", value)}
+          onChangeText={(value) => taskNameTextChangeHandler(value)}
           value={task.name}
         />
         <TextInput
@@ -94,6 +98,7 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
           style={styles.descriptionInput}
           onChangeText={(value) => inputChangeHandler("description", value)}
           value={task.description}
+          multiline
         />
 
         <ScrollView horizontal>
@@ -111,13 +116,6 @@ const UpdateTaskScreen = ({ route }: UpdateTaskScreenProps) => {
             val={task.listId}
             placeholder="List"
             iconName="file-tray-outline"
-            onValueChange={inputChangeHandler}
-            taskValueIdentifier="listId"
-          />
-          <MiniDropdown
-            options={listOptions}
-            placeholder="Test"
-            iconName="flag-outline"
             onValueChange={inputChangeHandler}
             taskValueIdentifier="listId"
           />

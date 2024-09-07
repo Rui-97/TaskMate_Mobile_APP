@@ -22,7 +22,7 @@ const DURATIONS = [
   { label: "30:00", value: 30 * 60 },
   { label: "40:00", value: 40 * 60 },
   { label: "60:00", value: 60 * 60 },
-  { label: "1", value: 1 },
+  // { label: "1", value: 1 },
 ];
 
 const PomoScreen = () => {

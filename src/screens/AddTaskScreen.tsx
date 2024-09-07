@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -55,6 +55,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     label: capitalizeWord(list.name),
     value: list.id,
   }));
+  const remainingTextRef = useRef(task.name);
 
   useEffect(() => {
     if (route.params?.date) {
@@ -69,12 +70,19 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     setTask((prevTask) => ({ ...prevTask, [valueIdentifer]: enteredValue }));
   };
 
-  const submitTaskHandler = async () => {
-    const parsedTask = parseTask(task.name);
+  const taskNameTextChangeHandler = (input: string) => {
+    inputChangeHandler("name", input);
+
+    const parsedTask = parseTask(input);
     const parsedDate = parsedTask.date;
-    if (parsedDate) {
-      task.date = parsedDate;
-    }
+    const parsedPriority = parsedTask.priority;
+    if (parsedDate) inputChangeHandler("date", parsedDate);
+    if (parsedPriority) inputChangeHandler("priority", parsedPriority);
+    remainingTextRef.current = parsedTask.remainingText;
+  };
+
+  const submitTaskHandler = async () => {
+    task.name = remainingTextRef.current;
 
     // Add task into firestore db
     const uid = auth.currentUser!.uid;
@@ -96,9 +104,6 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
     addTask(task);
   };
 
-  console.log("lists in add task screen");
-  console.log(lists);
-
   return (
     <SafeAreaView>
       <View style={styles.screenContainer}>
@@ -107,7 +112,9 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
           placeholderTextColor="#8c8c8c"
           style={styles.taskNameInput}
           autoFocus={true}
-          onChangeText={(value) => inputChangeHandler("name", value)}
+          onChangeText={(value) => {
+            taskNameTextChangeHandler(value);
+          }}
           value={task.name}
         />
         <TextInput
@@ -116,6 +123,7 @@ const AddTaskScreen = ({ route }: AddTaskScreenProps) => {
           style={styles.descriptionInput}
           onChangeText={(value) => inputChangeHandler("description", value)}
           value={task.description}
+          multiline
         />
 
         <ScrollView horizontal>

@@ -12,21 +12,11 @@ export type CalendarStackParamList = {
   CalendarWeeklyScreen: undefined;
 };
 
-export type PomoStackParamList = {
-  PomoScreen: undefined;
-  PomoCompleteScreen: undefined;
-};
-
-export type AccountStackParamList = {
-  AccountScreen: undefined;
-  SettingsScreen: undefined;
-};
-
 export type BottomTabParamList = {
   TaskStack: NavigatorScreenParams<TaskStackParamList>;
   CalendarStack: NavigatorScreenParams<CalendarStackParamList>;
-  PomoStack: NavigatorScreenParams<PomoStackParamList>;
-  AccountStack: NavigatorScreenParams<AccountStackParamList>;
+  PomoScreen: undefined;
+  AccountScreen: undefined;
 };
 
 export type RootStackParamList = {

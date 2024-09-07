@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -25,6 +25,11 @@ const MiniDropdown = ({
 }: MiniDropdownProps) => {
   const [value, setValue] = useState(val);
   const [isFocus, setIsFocus] = useState(false);
+
+  // Sync the value state with the val prop when it changes
+  useEffect(() => {
+    setValue(val);
+  }, [val]);
 
   const valueChangeHandler = (value: string) => {
     setValue(value);

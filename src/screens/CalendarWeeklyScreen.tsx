@@ -1,16 +1,16 @@
-import { View, SafeAreaView, Text, StyleSheet } from "react-native";
+import { View, SafeAreaView, StyleSheet } from "react-native";
+import { useState } from "react";
 import {
   ExpandableCalendar,
-  TimelineEventProps,
   TimelineList,
   CalendarProvider,
-  WeekCalendar,
-  TimelineProps,
   CalendarUtils,
 } from "react-native-calendars";
 import { groupBy } from "lodash";
 
 import { formatDate } from "../utils/utils";
+import SelectViewIconButton from "../components/Calendar/SelectViewIconButton";
+import SelectViewModal from "../components/Calendar/SelectViewModal";
 
 const INITIAL_TIME = { hour: 9, minutes: 0 };
 
@@ -21,7 +21,7 @@ const events = [
     start: "2024-08-25 09:00:00",
     end: "2024-08-25 10:00:00",
     title: "Morning Meeting",
-    color: "blue",
+    color: "#9ea9ce",
   },
   {
     id: "2",
@@ -29,7 +29,7 @@ const events = [
     start: "2024-08-25 11:00:00",
     end: "2024-08-25 12:00:00",
     title: "Team Standup",
-    color: "green",
+    color: "#9ea9ce",
   },
   {
     id: "3",
@@ -37,17 +37,23 @@ const events = [
     start: "2024-08-26 14:00:00",
     end: "2024-08-26 15:00:00",
     title: "Client Call",
-    color: "red",
+    color: "#9ea9ce",
   },
 ];
 
 const CalendarWeeklyScreen = () => {
+  const initialDate = CalendarUtils.getCalendarDateString(new Date());
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const eventsByDate = groupBy(events, (e) =>
     CalendarUtils.getCalendarDateString(e.start)
   );
   console.log(eventsByDate);
   return (
     <SafeAreaView style={{ width: "100%", height: "100%" }}>
+      <SelectViewIconButton onPress={setIsModalVisible} />
+
       <CalendarProvider
         date={formatDate(new Date())}
         showTodayButton
@@ -73,6 +79,10 @@ const CalendarWeeklyScreen = () => {
           />
         </View>
       </CalendarProvider>
+      <SelectViewModal
+        isVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
     </SafeAreaView>
   );
 };
