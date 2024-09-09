@@ -47,6 +47,8 @@ const TasksScreen = ({ route }: TasksScreenProps) => {
   const toggleShowTaskDetails = () => {
     setShowTaskDetails(!showTaskDetails);
   };
+  console.log("listid");
+  console.log(listId);
 
   const moreOptionsData = [
     {
